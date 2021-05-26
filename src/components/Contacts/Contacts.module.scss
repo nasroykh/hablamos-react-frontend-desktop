@@ -1,0 +1,19 @@
+.Contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5em .5em;
+}
+
+.ContactsSearch {
+
+    overflow: auto;
+
+    li a {
+        justify-content: space-around;
+    }
+}
+
+.ContactsGroup {
+    overflow: auto;
+}

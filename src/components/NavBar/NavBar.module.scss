@@ -1,0 +1,57 @@
+@import '../../scss/variables';
+
+.NavBar {
+    border: 3px $secondaryColor solid;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 0;
+    max-width: 120px;
+    grid-column: 1/2;
+}
+
+.NavBar > ul {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    li {
+        margin: 1em 0;
+
+        svg {
+            padding: .1em;
+        }
+
+
+        &:last-of-type {
+            align-self: stretch;
+            background-color: $secondaryColor;
+            padding: .25em 0;
+            
+            svg {
+                width: 100%;
+            }
+        }
+    }
+    
+    .Active {
+        background-color: $primaryColor;
+        display: block;
+        border-radius: 100em;
+        padding: .5em;
+        transition: 250ms ease-in-out;
+        transition-property: background-color color;
+        
+        svg {
+            padding: .25em;
+        }
+    
+        path, rect {
+            fill: $bgColor;
+        }
+    }
+
+}

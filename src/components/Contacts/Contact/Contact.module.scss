@@ -1,0 +1,47 @@
+@import '../../../scss/variables';
+
+.Contact {
+    margin-bottom: 1.5em;
+    width: 100%;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &:nth-child(even) span {
+        background-color: $secondaryColor;
+    }
+
+    &:hover {
+        a {
+            color: $bgColor;
+            background-color: $primaryColor;
+            border-radius: 15px;
+        }
+    }
+}
+
+.Contact > a {    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $primaryColor;
+    padding: .5em 1em;
+    transition: all 200ms ease-in-out;
+    
+    * {
+        font-family: $secondaryFont;
+        font-weight: 600;
+    }
+    
+    h3 {
+        // margin: 0 4em 0 1em;
+    }
+
+    span {
+        height: 10px;
+        width:  10px;
+        border-radius: 100em;
+        background-color: #499747;
+    }
+}

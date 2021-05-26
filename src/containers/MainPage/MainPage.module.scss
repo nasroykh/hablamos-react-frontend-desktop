@@ -1,0 +1,15 @@
+.MainPage {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 9fr;
+    column-gap: 1.5em;
+    height: 100%;
+}
+
+.Hidden {
+    display: none;
+}
+
+.Hidden ~ div {
+    grid-column: 2/-1;
+}

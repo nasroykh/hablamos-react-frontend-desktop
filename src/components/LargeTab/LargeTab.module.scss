@@ -1,0 +1,110 @@
+@import '../../scss/variables';
+
+.LargeTab {
+    border: 3px $secondaryColor solid;
+    border-radius: 30px;
+    overflow: hidden;
+    grid-column: 3/4;
+}
+
+.TabBody {
+    height: 90%;
+    overflow: auto;
+}
+
+
+.TabHeader {
+    background-color: $secondaryColor;
+    color: $whiteColor;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2em .5em;
+    height: 10%;
+    
+    h2 {
+        margin-right: auto;
+    }
+    
+    a:last-of-type {
+        margin-left: 1em;
+    }
+}
+
+.GroupTab {
+    padding: .5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    margin: auto;
+
+    a, button {
+        margin: .5em 0;
+    }
+
+    input {
+        width: 100%;
+        margin-bottom: 1em;
+    }
+}
+
+.ProfileTab {
+    
+    padding: 2em ($d-pad);
+
+    input {
+        width: 100%;
+    }
+    
+    label {
+        color: $primaryColor;
+        font-family: $secondaryFont;
+        margin-left: 1em;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    div {
+        margin: .5em 0;
+    }
+
+    button {
+        margin: 2em auto 1em;
+    }
+
+    a {
+        margin: 0 auto;
+    }
+
+    h3 {
+        color: $primaryColor;
+        font-family: $primaryFont;
+        font-weight: 400;
+        align-self: flex-start;
+        margin: 2em .5em 1em;
+    }
+}
+
+.ProfilePic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    img {
+        width: 15%;
+    }
+
+    a {
+        width: 25%;
+    }
+
+    h1 {
+        color: $primaryColor;
+        margin: .5em 0 1em;
+    }
+}

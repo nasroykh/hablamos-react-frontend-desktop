@@ -1,0 +1,20 @@
+@import '../../scss/variables';
+
+.Primary, .Secondary {
+    padding: 1.25em .5em;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.Primary {
+    background-color: $secondaryColor;
+    color: $whiteColor;
+    width: 80%;
+}
+
+.Secondary {
+    color: $primaryColor;
+    background-color: $bgColor;
+    border: 2px $primaryColor solid;
+    width: 60%;
+}

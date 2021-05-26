@@ -1,0 +1,57 @@
+@import '../../scss/variables';
+
+.LandingPage {
+
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    height: 100%;
+    
+    
+}
+
+.LandingText {
+    
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1em 0 6em;
+    
+    h1, h2 {
+        color: $primaryColor;
+        text-align: left;
+    }
+
+    
+    div:first-of-type{
+    }
+    
+    div:nth-of-type(2) {
+        a {
+            margin-top: 1em;
+        }
+        margin: 5em 0;
+        padding-right: 10em;
+    }
+    
+    div:last-of-type {
+        a {
+            margin-top: 1em;
+        }    
+    }
+
+
+}
+
+.LandingImage { 
+    margin: auto;
+    margin-right: -($d-pad);
+    div {
+        
+        img {
+            border-radius: 30px 0 0 30px;
+            width: 100%;
+        }
+    }
+}
