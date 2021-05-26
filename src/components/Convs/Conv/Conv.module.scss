@@ -17,7 +17,8 @@
     color: $primaryColor;
     padding: .5em .25em;
     gap: 0 .5em;
-
+    transition: 200ms ease-in-out;
+    transition-property: color background-color;
 
     &:hover {
         color: $bgColor;

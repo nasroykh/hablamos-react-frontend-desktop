@@ -9,47 +9,44 @@ import BackDrop from '../../elements/BackDrop/BackDrop';
 
 const MainPage = () => {
 
-    const [sdShow, setSdShow] = useState(false);
-    const [bdShow, setBdShow] = useState(false);
-
-    const sdToggleHandler = () => {
-        setBdShow(!bdShow);
-        setSdShow(!sdShow);
-    }
-
     return (
         <div className={classes.MainPage}>
-            <NavBar sdToggleHandler={sdToggleHandler}/>
+            <NavBar />
             
             <Switch>
-                <Route path='/main/convs'>
+                <Route exact path='/main/convs'>
                     <SmallTab tabName='convs'/>
                 </Route>
 
-                <Route path='/main/addconv'>
+                <Route exact path='/main/convs/add'>
                     <SmallTab tabName='addconv'/>
                 </Route>
 
-                <Route path='/main/friends'>
+                <Route exact path='/main/friends'>
                     <SmallTab tabName='friends'/>
                 </Route>
 
-                <Route path='/main/addcontact'>
+                <Route exact path='/main/friends/search'>
                     <SmallTab tabName='addcontact'/>
                 </Route>
 
-                <Route path='/main/addtogroup'>
+                <Route exact path='/main/friends/group'>
                     <SmallTab tabName='addtogroup'/>
                 </Route>
 
-                <Route path='/main/creategroup'>
+                <Route exact path='/main/friends/group/confirm'>
                     <SmallTab tabName='addtogroup'/>
                     <LargeTab tabName='creategroup'/>
                 </Route>
 
-                <Route path='/main/profile'>
+                <Route exact path='/main/profile'>
                     <div className={classes.Hidden}></div>
                     <LargeTab tabName='profile'/>
+                </Route>
+
+                <Route exact path='/main/chat/:id'>
+                    <SmallTab tabName='convs'/>
+                    <LargeTab tabName='chat'/>
                 </Route>
             </Switch>
         </div>

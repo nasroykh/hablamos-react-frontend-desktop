@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 const Conv = (props) => {
     return (
         <li className={classes.Conv}>
-            <Link to="#">
+            <Link to={`/main/chat/${props.name}`}>
                 <img src={pic} alt=""/>
                 <h3>{props.name}</h3>
                 <p>{props.message}</p>

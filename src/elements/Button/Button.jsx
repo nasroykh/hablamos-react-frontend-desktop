@@ -7,7 +7,8 @@ import {ReactComponent as AddConv} from '../../assets/add-conv-icon.svg';
 import {ReactComponent as BackBtn} from '../../assets/back-btn.svg';
 import {ReactComponent as AddFriend} from '../../assets/add-friend-icon.svg';
 import {ReactComponent as Group} from '../../assets/group-icon.svg';
-
+import {ReactComponent as FileIcon} from '../../assets/file-icon.svg';
+import {ReactComponent as SendBtn} from '../../assets/send-btn.svg';
 
 const Button = (props) => {
     let btn;
@@ -51,6 +52,14 @@ const Button = (props) => {
 
         case 'group':
             btn = <Link to={props.to} className={classes.TabHeaderBtn}><Group/></Link>;
+            break;
+
+        case 'file-send':
+            btn = <button onClick={props.click} className={classes.FileSend}><FileIcon/></button>;
+            break;
+        
+        case 'send-btn':
+            btn = <button type='submit' onClick={props.click} className={classes.SendBtn}><SendBtn/></button>;
             break;
         
         default:

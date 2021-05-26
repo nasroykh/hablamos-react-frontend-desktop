@@ -4,13 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, MemoryRouter} from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-      <BrowserRouter>
+      <MemoryRouter>
         <App />
-      </BrowserRouter>
+      </MemoryRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -15,7 +15,7 @@ const SmallTab = (props) => {
                 <Auxiliary>
                     <div className={classes.TabHeader}>
                         <h2>Conversations</h2>
-                        <Button to='/main/addconv' btnType='add-conv'/>
+                        <Button to='/main/convs/add' btnType='add-conv'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ConvsTab}` }>
                         <Convs/>
@@ -43,8 +43,8 @@ const SmallTab = (props) => {
                 <Auxiliary>
                     <div className={classes.TabHeader}>
                         <h2>Friends</h2>
-                        <Button to='/main/addtogroup' btnType='group'/>
-                        <Button to='/main/addcontact' btnType='add-contact'/>
+                        <Button to='/main/friends/group' btnType='group'/>
+                        <Button to='/main/friends/search' btnType='add-contact'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.FriendsTab}` }>
                         <Contacts/>
@@ -78,7 +78,7 @@ const SmallTab = (props) => {
                     <div className={`${classes.TabBody} ${classes.GroupTab}` }>
                         <FormInput type='search' placeholder='Enter username...'/>
                         <Contacts group/>
-                        <Button btnType='primary' to='/main/creategroup'>Confirm</Button>
+                        <Button btnType='primary' to='/main/friends/group/confirm'>Confirm</Button>
                     </div>
                 </Auxiliary>
             );

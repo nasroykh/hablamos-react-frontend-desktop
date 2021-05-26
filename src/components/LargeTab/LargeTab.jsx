@@ -6,6 +6,7 @@ import Convs from '../Convs/Convs';
 import Contacts from '../Contacts/Contacts';
 import FormInput from '../../elements/FormInput/FormInput';
 import pic from '../../assets/demo-profile-pic.png';
+import Messages from '../Messages/Messages';
 
 const LargeTab = (props) => {
     let tab;
@@ -38,7 +39,7 @@ const LargeTab = (props) => {
                     <div className={`${classes.TabBody} ${classes.GroupTab}` }>
                         <FormInput type='search' placeholder='Enter group name...'/>
                         <Button btnType='primary'>Confirm</Button>
-                        <Button btnType='secondary' to='/main/addtogroup'>Cancel</Button>
+                        <Button btnType='secondary' to='/main/friends/group'>Cancel</Button>
                     </div>
                 </Auxiliary>
             );
@@ -85,6 +86,24 @@ const LargeTab = (props) => {
                             </div>
                             <Button btnType='primary-form'>Confirm</Button>
                             <Button to='/main/profile' btnType='secondary-form'>Cancel</Button>
+                        </form>
+                    </div>
+                </Auxiliary>
+            );
+            break;
+
+        case 'chat':
+            tab = (
+                <Auxiliary>
+                    <div className={classes.TabHeader}>
+                        <h2>John Doe</h2>
+                    </div>
+                    <div className={`${classes.TabBody} ${classes.ChatTab}` }>
+                        <Messages/>
+                        <form className={classes.ChatForm}>
+                            <Button btnType='file-send'/>
+                            <FormInput type="text" />
+                            <Button btnType="send-btn" />
                         </form>
                     </div>
                 </Auxiliary>
