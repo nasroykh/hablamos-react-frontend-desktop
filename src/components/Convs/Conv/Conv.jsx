@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Conv.module.scss';
-import pic from '../../../assets/demo-profile-pic.png';
+import pic from '../../../assets/demo-profile-pic.jpg';
 import {Link} from 'react-router-dom';
 
 const Conv = (props) => {

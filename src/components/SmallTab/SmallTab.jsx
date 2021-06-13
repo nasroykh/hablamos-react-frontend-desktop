@@ -1,7 +1,6 @@
 import classes from './SmallTab.module.scss';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {useSelector, useDispatch} from 'react-redux';
-import {useHistory} from 'react-router-dom';
 import Auxiliary from '../../hoc/Auxiliary';
 import Button from '../../elements/Button/Button';
 import Convs from '../Convs/Convs';
@@ -10,12 +9,7 @@ import FormInput from '../../elements/FormInput/FormInput';
 import { 
     fetchConvs, 
     fetchFriends, 
-    contactSearch, 
-    addContact, 
-    fetchRequests, 
-    acceptContact,
-    cancelAddContact,
-    refuseContact} from '../../store/user/user-actions';
+    fetchRequests } from '../../store/user/user-actions';
 import TabMenu from '../TabMenu/TabMenu';
 import BackDrop from '../../elements/BackDrop/BackDrop';
 

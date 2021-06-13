@@ -4,19 +4,18 @@ import socketIOClient from "socket.io-client";
 import {useSelector, useDispatch} from 'react-redux';
 import {Switch, Route, Redirect, useHistory} from 'react-router-dom'
 import { isMobile } from "react-device-detect";
-import LoadingPage from './containers/LoadingPage/LoadingPage';
+// import LoadingPage from './containers/LoadingPage/LoadingPage';
 import LoadingSpinner from './elements/LoadingSpinner/LoadingSpinner';
 import LandingPage from './containers/LandingPage/LandingPage';
 import SignUpPage from './containers/SignUpPage/SignUpPage';
 import SignInPage from './containers/SignInPage/SignInPage';
 import MainPage from './containers/MainPage/MainPage';
-import ChatPage from './containers/ChatPage/ChatPage';
 import DialogBox from './components/DialogBox/DialogBox';
 import {checkAuth, logout} from './store/auth/auth-actions';
 import {userActions} from './store/user/user-slice';
 
-// const ENDPOINT = "https://fierce-inlet-31066.herokuapp.com"; 
-const ENDPOINT = "ws://localhost:4444"; 
+const ENDPOINT = "https://fierce-inlet-31066.herokuapp.com"; 
+// const ENDPOINT = "ws://localhost:4444"; 
 export const socket = socketIOClient(ENDPOINT);
 
 const App = () => {

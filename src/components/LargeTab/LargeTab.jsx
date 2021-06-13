@@ -6,7 +6,7 @@ import Auxiliary from '../../hoc/Auxiliary';
 import Button from '../../elements/Button/Button';
 import Contacts from '../Contacts/Contacts';
 import FormInput from '../../elements/FormInput/FormInput';
-import pic from '../../assets/demo-profile-pic.png';
+import pic from '../../assets/demo-profile-pic.jpg';
 import Messages from '../Messages/Messages';
 import {userActions} from '../../store/user/user-slice';
 import {fetchMessages, sendMessage, acceptContact, refuseContact, fetchRequests, cancelAddContact, contactSearch, addContact} from '../../store/user/user-actions';

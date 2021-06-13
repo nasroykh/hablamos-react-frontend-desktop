@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../../elements/Button/Button';
 import Logo from '../../elements/Logo/Logo';
 import classes from './NavBar.module.scss';
-import pic from '../../assets/demo-profile-pic.png';
+import pic from '../../assets/demo-profile-pic.jpg';
 import {ReactComponent as NavConv} from '../../assets/conv-icon.svg';
 import {ReactComponent as NavFriends} from '../../assets/friends-icon.svg';
 import {ReactComponent as NavProfile} from '../../assets/profile-icon.svg';

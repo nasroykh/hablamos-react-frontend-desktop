@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Contact.module.scss';
-import pic from '../../../assets/demo-profile-pic.png';
+import pic from '../../../assets/demo-profile-pic.jpg';
 import {Link} from 'react-router-dom';
 import Button from '../../../elements/Button/Button';
 

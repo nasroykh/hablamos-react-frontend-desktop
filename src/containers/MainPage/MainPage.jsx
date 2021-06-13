@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux';
 import classes from './MainPage.module.scss';
 import NavBar from '../../components/NavBar/NavBar';
 import LargeTab from '../../components/LargeTab/LargeTab';
 import SmallTab from '../../components/SmallTab/SmallTab';
 import Notif from '../../components/Notif/Notif';
 import {Switch, Route, useHistory} from 'react-router-dom';
-import BackDrop from '../../elements/BackDrop/BackDrop';
 import {socket} from '../../App';
 
 const MainPage = (props) => {

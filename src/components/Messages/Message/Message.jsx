@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Message.module.scss';
-import pic from '../../../assets/demo-profile-pic.png';
+import pic from '../../../assets/demo-profile-pic.jpg';
 
 const Message = (props) => {
     return (
