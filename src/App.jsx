@@ -1,79 +1,102 @@
 import classes from './App.module.scss';
 import React, {useEffect, useState} from 'react';
-// import axios from './axios';
 import socketIOClient from "socket.io-client";
-import {Switch, Route} from 'react-router-dom'
+import {useSelector, useDispatch} from 'react-redux';
+import {Switch, Route, Redirect, useHistory} from 'react-router-dom'
+import { isMobile } from "react-device-detect";
 import LoadingPage from './containers/LoadingPage/LoadingPage';
+import LoadingSpinner from './elements/LoadingSpinner/LoadingSpinner';
 import LandingPage from './containers/LandingPage/LandingPage';
 import SignUpPage from './containers/SignUpPage/SignUpPage';
 import SignInPage from './containers/SignInPage/SignInPage';
 import MainPage from './containers/MainPage/MainPage';
 import ChatPage from './containers/ChatPage/ChatPage';
-import { isDesktop, isMobile } from "react-device-detect";
-// const ENDPOINT = "http://localhost:4444"; 
-// const socket = socketIOClient(ENDPOINT);
+import DialogBox from './components/DialogBox/DialogBox';
+import {checkAuth, logout} from './store/auth/auth-actions';
+import {userActions} from './store/user/user-slice';
+
+// const ENDPOINT = "https://fierce-inlet-31066.herokuapp.com"; 
+const ENDPOINT = "ws://localhost:4444"; 
+export const socket = socketIOClient(ENDPOINT);
 
 const App = () => {
 
-	const [fetchedMessages, setFetchedMessages] = useState([]);
-	const [username, setUsername] = useState('');
-	const [conv, setConv] = useState('');
-	const [friend, setFriend] = useState('');
+	let isAuth = useSelector(state => state.auth.isAuth);
+	let token = useSelector(state => state.auth.token);
+	let isLoading = useSelector(state => state.user.isLoading);
+	
+	const dispatch = useDispatch();
+
+	const history = useHistory();
+
+	const [bdShow, setBdShow] = useState(false);
+	const [tabMenuShow, setTabMenuShow] = useState(false);
+
+	useEffect(() => {
+        socket.on('message:receive', (payload) => {
+			dispatch(userActions.receiveMessage({
+				message: payload.message,
+				sender: payload.sender,
+				time: payload.time
+			}));
+        });
+    }, [dispatch]);
 
 	useEffect(() => {
 		if (isMobile && window.location.hostname==='hablamos.me') {
 			window.location.href = 'https://m.hablamos.me';
 		} 
 
-	}, [])
+		dispatch(checkAuth(localStorage.getItem('token')));
 
-	// useEffect(() => {
-	// 	socket.on("connection", () => {
-	// 		console.log('Connected to socket!');
-	// 	});
-	// 	socket.on('message', (mes) => {
-	// 		console.log(mes)
-	// 	});
-	// 	socket.on('conv', (data) => {
-	// 		if (data._id) {
-	// 			setConv(data._id)
-	// 			setFetchedMessages(data.messages);
-	// 		} else {
-	// 			setConv('')
-	// 			setFetchedMessages([]);
-	// 		}
-	// 	});
-	// 	socket.on('receiveMessage', (data) => {
-	// 		let newMessages = [...fetchedMessages];
-	// 		newMessages.push({
-	// 			sender: data.username,
-	// 			message: data.message,
-	// 			sentAt: data.date,
-	// 			_id: data._id
-	// 		});
-	// 		setFetchedMessages(newMessages);
-	// 	});
+		socket.on("connection", () => {
+			console.log('Connected to socket!');
+		});
+		
+	}, [dispatch])
+	
+	const bdClickHandler = () => {
+		setBdShow(false);
+		setTabMenuShow(false);
+	}
 
-	// }, [fetchedMessages])
+	const tabMenuToggleHandler = () => {
+		setBdShow(!bdShow);
+		setTabMenuShow(!tabMenuShow);
+	}
+
+	const logoutHandler = (e) => {
+        e.preventDefault();
+
+        dispatch(logout(token));
+
+        history.push('/');
+    }
 	
  	return (
 		<div className={classes.App}>
+			<DialogBox/>
+			
+			{isLoading ? <LoadingSpinner/> : null}
 			<Switch>
-				<Route path='/chat'>
-					<ChatPage/>
-				</Route>
 				<Route path='/main'>
-					<MainPage/>
+					{isAuth ? 
+						<MainPage
+							bdShow={bdShow}
+							tabMenuToggleHandler={tabMenuToggleHandler}
+							tabMenuShow={tabMenuShow}
+							bdClickHandler={bdClickHandler}
+							logoutHandler={logoutHandler}/> : <Redirect to='/'/>}			
 				</Route>
 				<Route path='/signin'>
-					<SignInPage/>
+					{isAuth ? <Redirect to='/main/convs'/> : <SignInPage/>}
 				</Route>
 				<Route path='/signup'>
-					<SignUpPage/>
+					{isAuth ? <Redirect to='/main/convs'/> : <SignUpPage/>}
 				</Route>
 				<Route path='/'>
 					{/* <LoadingPage/> */}
-					<LandingPage/>
+					{isAuth ? <Redirect to='/main/friends'/> : <LandingPage/>}
 				</Route>
 			</Switch>
 		</div>

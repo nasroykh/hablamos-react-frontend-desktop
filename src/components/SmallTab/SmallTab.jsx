@@ -1,13 +1,51 @@
-import React from 'react'
 import classes from './SmallTab.module.scss';
+import React, { useEffect, useState } from 'react'
+import {useSelector, useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 import Auxiliary from '../../hoc/Auxiliary';
 import Button from '../../elements/Button/Button';
 import Convs from '../Convs/Convs';
 import Contacts from '../Contacts/Contacts';
 import FormInput from '../../elements/FormInput/FormInput';
+import { 
+    fetchConvs, 
+    fetchFriends, 
+    contactSearch, 
+    addContact, 
+    fetchRequests, 
+    acceptContact,
+    cancelAddContact,
+    refuseContact} from '../../store/user/user-actions';
+import TabMenu from '../TabMenu/TabMenu';
+import BackDrop from '../../elements/BackDrop/BackDrop';
 
 const SmallTab = (props) => {
     let tab;
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        switch (props.tabName) {
+            case 'convs':
+                dispatch(fetchConvs());
+                break;
+        
+            case 'friends':
+            case 'addconv':
+                dispatch(fetchFriends());
+                break;
+            case 'requests':
+                dispatch(fetchRequests());
+                break;
+
+            default:
+                break;
+        }
+    }, [dispatch, props.tabName]);
+
+    let convs = useSelector(state => state.user.convs);
+    let friends = useSelector(state => state.user.friends);
+
 
     switch (props.tabName) {
         case 'convs':
@@ -18,7 +56,7 @@ const SmallTab = (props) => {
                         <Button to='/main/convs/add' btnType='add-conv'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ConvsTab}` }>
-                        <Convs/>
+                        <Convs convs={convs}/>
                     </div>
                 </Auxiliary>
             );
@@ -32,7 +70,7 @@ const SmallTab = (props) => {
                         <Button to='/main/convs' btnType='back-btn'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ConvsTab}` }>
-                        <Contacts/>
+                        <Contacts friends={friends} addConv/>
                     </div>
                 </Auxiliary>
             );
@@ -43,26 +81,14 @@ const SmallTab = (props) => {
                 <Auxiliary>
                     <div className={classes.TabHeader}>
                         <h2>Friends</h2>
-                        <Button to='/main/friends/group' btnType='group'/>
-                        <Button to='/main/friends/search' btnType='add-contact'/>
+                        {/* <Button to='/main/friends/group' btnType='group'/>
+                        <Button to='/main/friends/search' btnType='add-contact'/> */}
+                        <Button btnType='tab-menu' click={props.tabMenuToggleHandler}/>
+                        <TabMenu friends tabMenuShow={props.tabMenuShow} tabMenuToggleHandler={props.tabMenuToggleHandler}/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.FriendsTab}` }>
-                        <Contacts/>
-                    </div>
-                </Auxiliary>
-            );
-            break;
-
-        case 'addcontact':
-            tab = (
-                <Auxiliary>
-                    <div className={classes.TabHeader}>
-                        <h2>Find your friends</h2>
-                        <Button to='/main/friends' btnType='back-btn'/>
-                    </div>
-                    <div className={`${classes.TabBody} ${classes.AddContactTab}` }>
-                        <FormInput type='search' placeholder='Enter username...'/>
-                        <Contacts search/>
+                        <BackDrop click={props.tabMenuToggleHandler} bdShow={props.bdShow}/>
+                        <Contacts friends={friends}/>
                     </div>
                 </Auxiliary>
             );

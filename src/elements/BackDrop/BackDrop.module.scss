@@ -3,10 +3,10 @@
 .BackDrop {
     z-index: -1;
     position: fixed;
-    margin: 0 (-$m-pad);
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
-    background-color: rgba($color: #000, $alpha: .8);
     transition: opacity 500ms ease-in-out;
     opacity: 0;
 }

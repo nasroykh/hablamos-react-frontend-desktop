@@ -10,6 +10,7 @@
 .TabBody {
     height: 90%;
     overflow: auto;
+    position: relative;
 }
 
 
@@ -21,25 +22,13 @@
     justify-content: space-between;
     padding: 2em .5em;
     height: 10%;
-    
+    position: relative;
+    z-index: 11;
+
     h2 {
         margin-right: auto;
     }
     
-    a:last-of-type {
-        margin-left: 1em;
-    }
-}
-
-.AddContactTab {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    input {
-        margin: 1em .25em;
-    }
 }
 
 .GroupTab {
@@ -68,3 +57,4 @@
         margin: .5em 0 1em;
     }
 }
+

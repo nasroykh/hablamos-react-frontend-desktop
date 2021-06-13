@@ -1,17 +1,161 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {useHistory, useLocation} from 'react-router-dom';
 import classes from './LargeTab.module.scss';
 import Auxiliary from '../../hoc/Auxiliary';
 import Button from '../../elements/Button/Button';
-import Convs from '../Convs/Convs';
 import Contacts from '../Contacts/Contacts';
 import FormInput from '../../elements/FormInput/FormInput';
 import pic from '../../assets/demo-profile-pic.png';
 import Messages from '../Messages/Messages';
+import {userActions} from '../../store/user/user-slice';
+import {fetchMessages, sendMessage, acceptContact, refuseContact, fetchRequests, cancelAddContact, contactSearch, addContact} from '../../store/user/user-actions';
+import { socket } from '../../App';
 
 const LargeTab = (props) => {
     let tab;
 
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const history = useHistory();
+    
+    const messageInput = useRef();
+    
+    let conv = useSelector(state => state.user.selectedConv);
+    let userId = useSelector(state => state.user._id);
+    let requests = useSelector(state => state.user.friendRequests);
+    let contacts = useSelector(state => state.user.foundContacts);
+
+    const [convId, setConvId] = useState('');
+    const [friendId, setFriendId] = useState('');
+
+    useEffect(() => {
+        if (props.tabName === 'chat') {
+            if ((!conv.messages && conv._id) || conv.new ) {
+                history.push(`/main/convs/chat?_id=${conv._id}`)
+            }
+        }
+    }, [conv, history, props.tabName])
+
+    useEffect(() => {
+
+        if (props.tabName === 'requests') {
+            dispatch(fetchRequests());
+        }
+
+        if (props.tabName === 'chat') {
+            let query = location.search;
+            console.log(history.location);
+            query = query.replace('?', '').split('=');
+            
+            let _id = '';
+            let friendId = '';
+    
+            if (query[0] === '_id') {
+                _id = query[1];
+                dispatch(fetchMessages(_id));
+                socket.emit('join', _id);
+                setConvId(_id);
+            } else if (query[0] === 'friendId') {
+                friendId = query[1];
+                setFriendId(friendId);
+                dispatch(userActions.checkIfConvExist({friendId}));
+            }
+    
+    
+            return () => {
+                if (_id) {
+                    socket.emit('leave', _id);
+                }
+                dispatch(userActions.leaveConv());
+            };
+        }
+
+    }, [dispatch, history.location, location.search, props.tabName])
+
+    const sendMessageHandler = (e) => {
+        e.preventDefault();
+
+        if (friendId) {
+            dispatch(sendMessage(messageInput.current.value, conv._id, friendId));
+        } else {
+            let part = conv.participants.find(el => el !== userId);
+            dispatch(sendMessage(messageInput.current.value, convId, part));
+        }
+        messageInput.current.value = '';
+    }
+
+    const acceptContactHandler = (e) => {
+        dispatch(acceptContact(e.currentTarget.id));
+    }
+
+    const refuseContactHandler = (e) => {
+        dispatch(refuseContact(e.currentTarget.id));
+    }
+
+
+    const contactSearchHandler = (e) => {
+        dispatch(contactSearch(e.target.value));
+    }
+
+    const addContactHandler = (e) => {
+        dispatch(addContact(e.currentTarget.id));
+    }
+
+    const cancelAddContactHandler = (e) => {
+        dispatch(cancelAddContact(e.currentTarget.id));
+    }
+
     switch (props.tabName) {
+        
+        case 'chat':
+            tab = (
+                <Auxiliary>
+                    <div className={classes.TabHeader}>
+                        <h2>{conv.friendUsername}</h2>
+                    </div>
+                    <div className={`${classes.TabBody} ${classes.ChatTab}` }>
+                        <Messages messages={conv.messages} userId={userId}/>
+                        <form className={classes.ChatForm} onSubmit={sendMessageHandler}>
+                            <Button btnType='file-send'/>
+                            <FormInput type="text" inputRef={messageInput} />
+                            <Button btnType="send-btn" />
+                        </form>
+                    </div>
+                </Auxiliary>
+            );
+            break;
+
+        case 'addcontact':
+            tab = (
+                <Auxiliary>
+                    <div className={classes.TabHeader}>
+                        <h2>Find your friends</h2>
+                    </div>
+                    <div className={`${classes.TabBody} ${classes.AddContactTab}` }>
+                        <FormInput type='search' placeholder='Enter username...' onChange={contactSearchHandler}/>
+                        <Contacts 
+                        search 
+                        friends={contacts} 
+                        addContactHandler={addContactHandler} 
+                        cancelAddContactHandler={cancelAddContactHandler}/>
+                    </div>
+                </Auxiliary>
+            );
+            break;
+
+        case 'requests':
+            tab = (
+                <Auxiliary>
+                    <div className={classes.TabHeader}>
+                        <h2>Friend Requests</h2>
+                    </div>
+                    <div className={`${classes.TabBody} ${classes.RequestsTab}` }>
+                        <Contacts friends={requests} requests acceptContactHandler={acceptContactHandler} refuseContactHandler={refuseContactHandler}/>
+                    </div>
+                </Auxiliary>
+            );
+            break;
 
         case 'contact':
             tab = (
@@ -92,23 +236,6 @@ const LargeTab = (props) => {
             );
             break;
 
-        case 'chat':
-            tab = (
-                <Auxiliary>
-                    <div className={classes.TabHeader}>
-                        <h2>John Doe</h2>
-                    </div>
-                    <div className={`${classes.TabBody} ${classes.ChatTab}` }>
-                        <Messages/>
-                        <form className={classes.ChatForm}>
-                            <Button btnType='file-send'/>
-                            <FormInput type="text" />
-                            <Button btnType="send-btn" />
-                        </form>
-                    </div>
-                </Auxiliary>
-            );
-            break;
     
         default:
             break;

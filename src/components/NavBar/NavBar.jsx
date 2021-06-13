@@ -26,16 +26,16 @@ const NavBar = (props) => {
                     </NavLink>
                 </li>
                 <li onClick={props.sdToggleHandler}>
-                    <NavLink to='/main/profile' activeClassName={classes.Active}>
+                    <NavLink to='/' /* activeClassName={classes.Active} */>
                         <NavProfile/>
                     </NavLink>
                 </li>
                 <li onClick={props.sdToggleHandler}>
-                    <NavLink to='/main/settings' activeClassName={classes.Active}>
+                    <NavLink to='/' /* activeClassName={classes.Active} */>
                         <NavSet/>
                     </NavLink>
                 </li>
-                <li onClick={props.sdToggleHandler}>
+                <li onClick={props.logoutHandler}>
                     <NavLink to='/signin'>
                         <NavLogout/>
                     </NavLink>

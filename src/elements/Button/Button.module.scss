@@ -18,3 +18,25 @@
     border: 2px $primaryColor solid;
     width: 60%;
 }
+
+.TabMenu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25em .25em;
+    transition: all 250ms ease-in-out;
+    border-radius: 50%;
+
+    &:hover {
+        background-color: rgba($bgColor, 0.5);
+    }
+
+    span {
+        background-color: $whiteColor;
+        width: .5em;
+        height: .5em;
+        display: block;
+        margin: 0 .2em;
+        border-radius: 50%;
+    }
+}

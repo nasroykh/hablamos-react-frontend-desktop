@@ -8,14 +8,9 @@
         margin-bottom: 0;
     }
 
-    &:nth-child(even) span {
-        background-color: $secondaryColor;
-    }
-
     &:hover {
         a {
-            color: $bgColor;
-            background-color: $primaryColor;
+            background-color: rgba($secondaryColor, 0.3);
             border-radius: 15px;
         }
     }
@@ -28,20 +23,24 @@
     color: $primaryColor;
     padding: .5em 1em;
     transition: all 200ms ease-in-out;
-    
+    word-break: break-all;
+
     * {
         font-family: $secondaryFont;
         font-weight: 600;
     }
-    
-    h3 {
-        // margin: 0 4em 0 1em;
-    }
+}
 
-    span {
-        height: 10px;
-        width:  10px;
-        border-radius: 100em;
-        background-color: #499747;
-    }
+.StatusDot {
+    height: 10px;
+    width:  10px;
+    border-radius: 100em;
+}
+
+.Online {
+    background-color: #499747;
+}
+
+.Offline {
+    background-color: $secondaryColor;
 }
