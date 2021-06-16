@@ -3,15 +3,16 @@
 .Message {
     display: grid;
     grid-template-columns: 1fr 15fr;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: auto 1fr;
     margin: 1em 0;
     column-gap: .5em;
     margin-right: 10%;
 
-    img {
+    & > img {
         grid-column: 1/2;
         grid-row: 1/4;
-        align-self: center;
+        align-self: flex-end;
+        border-radius: 50%;
     }
 
     span:first-of-type {
@@ -24,6 +25,11 @@
         word-break: break-all;
         font-size: 1rem;
         justify-self: flex-start;
+
+        img {
+            max-height: 350px;
+        }
+        
     }
     
     span:last-of-type {

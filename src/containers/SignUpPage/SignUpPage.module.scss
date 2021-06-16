@@ -31,3 +31,49 @@
         width: 25%;
     }
 }
+
+.PictureUpload {
+    display: flex;
+    flex-direction: column;
+    margin: 7em 0;
+    align-items: center;
+    color: $whiteColor;
+    font-size: 1rem;
+    
+    label {
+        font-family: $primaryFont;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40%;
+        margin: 0 auto;
+        padding: 1em;
+        border-radius: 10px;
+        border: 2px solid $whiteColor;
+        cursor: pointer;
+    }
+
+    span {
+        font-family: $secondaryFont;
+        margin-top: 1em;
+    }
+
+    input {
+        display: none;
+    }
+
+    svg {
+        margin: 0 2em;
+    }
+}
+
+.PictureButtons {
+    display: flex;
+    align-items: center;
+    margin: 2em auto;
+    width: 50%;
+
+    button {
+        margin-right: 3em;
+    }
+}

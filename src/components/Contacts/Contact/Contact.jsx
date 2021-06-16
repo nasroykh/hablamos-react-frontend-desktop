@@ -22,9 +22,11 @@ const Contact = (props) => {
             break;
     }
 
+    let pictureUrl = `http://localhost:4444/users/${props.id}/picture`;
+
     let contact = (
             <Link to={`/main/convs/chat?friendId=${props.id}`} onClick={props.openConvHandler}>
-                <img src={pic} alt=""/>
+                <img src={pictureUrl} alt=""/>
                 <h3>{props.name}</h3>
                 {props.search ? <Button click={props.addContactHandler} id={props.id} btnType='add-contact-btn'/> : 
                 <span className={`${classes.StatusDot} ${statusClass}`}></span>}
@@ -35,7 +37,7 @@ const Contact = (props) => {
     if (props.search) {
         contact = (
             <Link to="#">
-                <img src={pic} alt=""/>
+                <img src={pictureUrl} alt=""/>
                 <h3>{props.name}</h3>
                 {props.sent ? <Button click={props.cancelAddContactHandler} cancel id={props.id} btnType={'add-contact-btn'}/> : <Button click={props.addContactHandler} id={props.id} btnType='add-contact-btn'/>}
             </Link>
@@ -43,7 +45,7 @@ const Contact = (props) => {
     } else if (props.group) {
         contact = (
             <Link to="#">
-                <img src={pic} alt=""/>
+                <img src={pictureUrl} alt=""/>
                 <h3>{props.name}</h3>
                 <span className={`${classes.StatusDot} ${statusClass}`}></span>
                 <input type="checkbox"/>
@@ -52,7 +54,7 @@ const Contact = (props) => {
     } else if (props.requests) {
         contact = (
             <Link to="#">
-                <img src={pic} alt=""/>
+                <img src={pictureUrl} alt=""/>
                 <h3>{props.name}</h3>
                 <Button click={props.acceptContactHandler} id={props.id} btnType='add-contact-btn'/> 
                 <Button click={props.refuseContactHandler} cancel id={props.id} btnType='add-contact-btn'/> 

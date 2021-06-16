@@ -6,10 +6,20 @@ import Auxiliary from '../../hoc/Auxiliary';
 import Button from '../../elements/Button/Button';
 import Contacts from '../Contacts/Contacts';
 import FormInput from '../../elements/FormInput/FormInput';
+import {ReactComponent as FileIcon} from '../../assets/file-icon.svg';
 import pic from '../../assets/demo-profile-pic.jpg';
 import Messages from '../Messages/Messages';
 import {userActions} from '../../store/user/user-slice';
-import {fetchMessages, sendMessage, acceptContact, refuseContact, fetchRequests, cancelAddContact, contactSearch, addContact} from '../../store/user/user-actions';
+import {
+    fetchMessages, 
+    sendMessage,
+    sendFile, 
+    acceptContact, 
+    refuseContact, 
+    fetchRequests, 
+    cancelAddContact, 
+    contactSearch, 
+    addContact } from '../../store/user/user-actions';
 import { socket } from '../../App';
 
 const LargeTab = (props) => {
@@ -28,6 +38,7 @@ const LargeTab = (props) => {
 
     const [convId, setConvId] = useState('');
     const [friendId, setFriendId] = useState('');
+    const [selectedFile, setSelectedFile] = useState('');
 
     useEffect(() => {
         if (props.tabName === 'chat') {
@@ -71,18 +82,41 @@ const LargeTab = (props) => {
             };
         }
 
-    }, [dispatch, history.location, location.search, props.tabName])
+    }, [dispatch, history.location, location.search, props.tabName]);
+
+    const fileSendChangeHandler = (e) => {
+        if (e.target.files[0]) {
+            setSelectedFile(e.target.files[0]);
+        }
+    }
 
     const sendMessageHandler = (e) => {
         e.preventDefault();
 
         if (friendId) {
-            dispatch(sendMessage(messageInput.current.value, conv._id, friendId));
+            if (selectedFile) {
+                let file = new FormData();
+
+                file.append('file', selectedFile);
+        
+                dispatch(sendFile(file, conv._id, friendId));
+            } else {
+                dispatch(sendMessage(messageInput.current.value, conv._id, friendId));
+            }
         } else {
             let part = conv.participants.find(el => el !== userId);
-            dispatch(sendMessage(messageInput.current.value, convId, part));
+            if (selectedFile) {
+                let file = new FormData();
+
+                file.append('file', selectedFile);
+        
+                dispatch(sendFile(file, convId, part));            
+            } else {
+                dispatch(sendMessage(messageInput.current.value, convId, part));
+            }
         }
         messageInput.current.value = '';
+        setSelectedFile('');
     }
 
     const acceptContactHandler = (e) => {
@@ -115,10 +149,18 @@ const LargeTab = (props) => {
                         <h2>{conv.friendUsername}</h2>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ChatTab}` }>
-                        <Messages messages={conv.messages} userId={userId}/>
+                        <Messages messages={conv.messages} friendId={conv.participants} userId={userId}/>
                         <form className={classes.ChatForm} onSubmit={sendMessageHandler}>
-                            <Button btnType='file-send'/>
-                            <FormInput type="text" inputRef={messageInput} />
+                            <label className={classes.FileSend}>
+                                <FileIcon/>
+                                <input type="file" accept='image/*' onChange={fileSendChangeHandler}/>
+                            </label>
+                            <FormInput 
+                                type="text" 
+                                inputRef={messageInput}
+                                placeholder={selectedFile.name ? selectedFile.name : undefined} 
+                                value={selectedFile.name ? '' : undefined}
+                                disabled={selectedFile.name ? true : false} />
                             <Button btnType="send-btn" />
                         </form>
                     </div>

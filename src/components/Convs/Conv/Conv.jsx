@@ -4,10 +4,13 @@ import pic from '../../../assets/demo-profile-pic.jpg';
 import {Link} from 'react-router-dom';
 
 const Conv = (props) => {
+
+    let pictureUrl = `http://localhost:4444/users/${props.friendId}/picture`;
+
     return (
         <li className={classes.Conv}>
             <Link to={`/main/convs/chat?_id=${props.id}`}>
-                <img src={pic} alt=""/>
+                <img src={pictureUrl} alt=""/>
                 <h3>{props.name}</h3>
                 <p>{props.message}</p>
                 <span>{props.time}</span>

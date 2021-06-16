@@ -11,13 +11,15 @@ const FormInput = (props) => {
     } else {
         input = (
             <input 
-            type={props.type}
-            placeholder={props.placeholder}
-            className={`${props.sign ? classes.SignForm : classes.FormInput}`} 
-            ref={props.inputRef}
-            name={props.name}
-            required={props.required}
-            onChange={props.onChange} />   
+                type={props.type}
+                placeholder={props.placeholder}
+                className={`${props.sign ? classes.SignForm : classes.FormInput}`} 
+                ref={props.inputRef}
+                value={props.value}
+                name={props.name}
+                required={props.required}
+                onChange={props.onChange} 
+                disabled={props.disabled} />   
         )
     }
 

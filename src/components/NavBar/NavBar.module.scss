@@ -10,6 +10,11 @@
     padding: 1em 0;
     max-width: 120px;
     grid-column: 1/2;
+
+    img {
+        border-radius: 50%;
+        padding: 1em;
+    }
 }
 
 .NavBar > ul {

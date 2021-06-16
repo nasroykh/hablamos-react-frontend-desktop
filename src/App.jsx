@@ -6,6 +6,7 @@ import {Switch, Route, Redirect, useHistory} from 'react-router-dom'
 import { isMobile } from "react-device-detect";
 // import LoadingPage from './containers/LoadingPage/LoadingPage';
 import LoadingSpinner from './elements/LoadingSpinner/LoadingSpinner';
+import BackDrop from './elements/BackDrop/BackDrop';
 import LandingPage from './containers/LandingPage/LandingPage';
 import SignUpPage from './containers/SignUpPage/SignUpPage';
 import SignInPage from './containers/SignInPage/SignInPage';
@@ -14,8 +15,8 @@ import DialogBox from './components/DialogBox/DialogBox';
 import {checkAuth, logout} from './store/auth/auth-actions';
 import {userActions} from './store/user/user-slice';
 
-const ENDPOINT = "https://fierce-inlet-31066.herokuapp.com"; 
-// const ENDPOINT = "ws://localhost:4444"; 
+// const ENDPOINT = "https://fierce-inlet-31066.herokuapp.com"; 
+const ENDPOINT = "ws://localhost:4444"; 
 export const socket = socketIOClient(ENDPOINT);
 
 const App = () => {
@@ -33,18 +34,27 @@ const App = () => {
 
 	useEffect(() => {
         socket.on('message:receive', (payload) => {
-			dispatch(userActions.receiveMessage({
-				message: payload.message,
-				sender: payload.sender,
-				time: payload.time
-			}));
+			if (payload.file) {
+				dispatch(userActions.receiveFile({
+					_id: payload.lastMessageId,
+					sender: payload.sender,
+					time: payload.time,
+					file: true
+				}));
+			} else {
+				dispatch(userActions.receiveMessage({
+					message: payload.message,
+					sender: payload.sender,
+					time: payload.time
+				}));
+			}
         });
     }, [dispatch]);
 
 	useEffect(() => {
-		if (isMobile && window.location.hostname==='hablamos.me') {
-			window.location.href = 'https://m.hablamos.me';
-		} 
+		// if (isMobile) {
+		// 	window.location.href = 'https://m.hablamos.me';
+		// } 
 
 		dispatch(checkAuth(localStorage.getItem('token')));
 
@@ -75,9 +85,10 @@ const App = () => {
  	return (
 		<div className={classes.App}>
 			<DialogBox/>
-			
+			{isLoading ? <BackDrop loading/> : null}
 			{isLoading ? <LoadingSpinner/> : null}
 			<Switch>
+
 				<Route path='/main'>
 					{isAuth ? 
 						<MainPage
@@ -87,16 +98,20 @@ const App = () => {
 							bdClickHandler={bdClickHandler}
 							logoutHandler={logoutHandler}/> : <Redirect to='/'/>}			
 				</Route>
+
 				<Route path='/signin'>
 					{isAuth ? <Redirect to='/main/convs'/> : <SignInPage/>}
 				</Route>
+
 				<Route path='/signup'>
-					{isAuth ? <Redirect to='/main/convs'/> : <SignUpPage/>}
+					<SignUpPage/>
 				</Route>
+
 				<Route path='/'>
 					{/* <LoadingPage/> */}
-					{isAuth ? <Redirect to='/main/friends'/> : <LandingPage/>}
+					{isAuth ? <Redirect to='/main/convs'/> : <LandingPage/>}
 				</Route>
+
 			</Switch>
 		</div>
   	);

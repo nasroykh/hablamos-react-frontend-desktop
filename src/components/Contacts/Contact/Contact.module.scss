@@ -17,13 +17,19 @@
 }
 
 .Contact > a {    
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 6fr 1fr auto;
     align-items: center;
-    justify-content: space-between;
+    justify-items: flex-start;
     color: $primaryColor;
-    padding: .5em 1em;
+    column-gap: .5em;
+    padding: .5em 0;
     transition: all 200ms ease-in-out;
     word-break: break-all;
+
+    img {
+        border-radius: 50%;
+    }
 
     * {
         font-family: $secondaryFont;

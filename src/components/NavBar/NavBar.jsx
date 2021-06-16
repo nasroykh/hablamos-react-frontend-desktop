@@ -1,8 +1,8 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import Button from '../../elements/Button/Button';
 import Logo from '../../elements/Logo/Logo';
 import classes from './NavBar.module.scss';
-import pic from '../../assets/demo-profile-pic.jpg';
 import {ReactComponent as NavConv} from '../../assets/conv-icon.svg';
 import {ReactComponent as NavFriends} from '../../assets/friends-icon.svg';
 import {ReactComponent as NavProfile} from '../../assets/profile-icon.svg';
@@ -11,6 +11,11 @@ import {ReactComponent as NavLogout} from '../../assets/logout-icon.svg';
 import {NavLink} from 'react-router-dom'
 
 const NavBar = (props) => {
+
+    const _id = useSelector(state => state.user._id);
+
+    let pictureUrl = `http://localhost:4444/users/${_id}/picture`;
+
     return (
         <nav className={classes.NavBar}>
             <Logo without/>
@@ -41,7 +46,7 @@ const NavBar = (props) => {
                     </NavLink>
                 </li>
             </ul>
-            <Button btnType='profile-pic' to='/main/profile'><img src={pic} alt="" /></Button>
+            <Button btnType='profile-pic' to='/'><img src={pictureUrl} alt="Profile pic" /></Button>
         </nav>
     )
 }
