@@ -34,6 +34,7 @@
     * {
         font-family: $secondaryFont;
         font-weight: 600;
+        pointer-events: none;
     }
 }
 
@@ -49,4 +50,13 @@
 
 .Offline {
     background-color: $secondaryColor;
+}
+
+.Selected {
+    background-color: $primaryColor;
+    border-radius: 15px;
+    
+    h3 {
+        color: $bgColor;
+    }
 }

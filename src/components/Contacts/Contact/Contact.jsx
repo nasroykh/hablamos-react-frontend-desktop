@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import classes from './Contact.module.scss';
 import pic from '../../../assets/demo-profile-pic.jpg';
 import {Link} from 'react-router-dom';
@@ -24,9 +25,13 @@ const Contact = (props) => {
 
     let pictureUrl = `http://localhost:4444/users/${props.id}/picture`;
 
+    const selectedFriends = useSelector(state => state.user.selectedFriends);
+
+    let isSelected = selectedFriends.includes(props.id);
+
     let contact = (
             <Link to={`/main/convs/chat?friendId=${props.id}`} onClick={props.openConvHandler}>
-                <img src={pictureUrl} alt=""/>
+                <img src={pictureUrl} alt="Profile pic"/>
                 <h3>{props.name}</h3>
                 {props.search ? <Button click={props.addContactHandler} id={props.id} btnType='add-contact-btn'/> : 
                 <span className={`${classes.StatusDot} ${statusClass}`}></span>}
@@ -37,24 +42,23 @@ const Contact = (props) => {
     if (props.search) {
         contact = (
             <Link to="#">
-                <img src={pictureUrl} alt=""/>
+                <img src={pictureUrl} alt="Profile pic"/>
                 <h3>{props.name}</h3>
                 {props.sent ? <Button click={props.cancelAddContactHandler} cancel id={props.id} btnType={'add-contact-btn'}/> : <Button click={props.addContactHandler} id={props.id} btnType='add-contact-btn'/>}
             </Link>
         )
     } else if (props.group) {
         contact = (
-            <Link to="#">
-                <img src={pictureUrl} alt=""/>
+            <Link to="#" id={props.id} className={`${isSelected ? classes.Selected : ''}`} onClick={props.addToGroupHandler}>
+                <img src={pictureUrl} alt="Profile pic"/>
                 <h3>{props.name}</h3>
                 <span className={`${classes.StatusDot} ${statusClass}`}></span>
-                <input type="checkbox"/>
             </Link>
         )
     } else if (props.requests) {
         contact = (
             <Link to="#">
-                <img src={pictureUrl} alt=""/>
+                <img src={pictureUrl} alt="Profile pic"/>
                 <h3>{props.name}</h3>
                 <Button click={props.acceptContactHandler} id={props.id} btnType='add-contact-btn'/> 
                 <Button click={props.refuseContactHandler} cancel id={props.id} btnType='add-contact-btn'/> 

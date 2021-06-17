@@ -256,3 +256,25 @@ export const uploadPicture = (picture) => {
         }
     }
 }
+
+
+export const createGroupChat = (groupName, participants) => {
+    return async (dispatch) => {
+        try {
+            dispatch(userActions.setIsLoading());
+            console.log(groupName, participants)
+            let res = await axios.post('/convs/group', {groupName, participants} , {headers: {Authorization: localStorage.getItem('token')}});
+
+            if (res.status === 201) {
+                dispatch(userActions.createGroupChatSuccess({
+                    conv: res.data
+                }));
+            }
+
+            console.log(res);
+
+        } catch (e) {
+            dispatch(userActions.setError({error: 'Unable to create a group chat'}));
+        }
+    }
+}

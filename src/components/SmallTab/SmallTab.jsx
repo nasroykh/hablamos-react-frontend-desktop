@@ -10,6 +10,7 @@ import {
     fetchConvs, 
     fetchFriends, 
     fetchRequests } from '../../store/user/user-actions';
+import { userActions } from '../../store/user/user-slice';
 import TabMenu from '../TabMenu/TabMenu';
 import BackDrop from '../../elements/BackDrop/BackDrop';
 
@@ -26,6 +27,7 @@ const SmallTab = (props) => {
         
             case 'friends':
             case 'addconv':
+            case 'addtogroup':
                 dispatch(fetchFriends());
                 break;
             case 'requests':
@@ -39,6 +41,13 @@ const SmallTab = (props) => {
 
     let convs = useSelector(state => state.user.convs);
     let friends = useSelector(state => state.user.friends);
+    let selectedFriends = useSelector(state => state.user.selectedFriends);
+
+    const addToGroupHandler = (e) => {
+        e.preventDefault();
+
+        dispatch(userActions.addToGroup({_id: e.target.id}));
+    }
 
 
     switch (props.tabName) {
@@ -96,8 +105,7 @@ const SmallTab = (props) => {
                         <Button to='/main/friends' btnType='back-btn'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.GroupTab}` }>
-                        <FormInput type='search' placeholder='Enter username...'/>
-                        <Contacts group/>
+                        <Contacts group friends={friends} addToGroupHandler={addToGroupHandler}/>
                         <Button btnType='primary' to='/main/friends/group/confirm'>Confirm</Button>
                     </div>
                 </Auxiliary>

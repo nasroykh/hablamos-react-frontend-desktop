@@ -19,6 +19,7 @@ import {
     fetchRequests, 
     cancelAddContact, 
     contactSearch, 
+    createGroupChat,
     addContact } from '../../store/user/user-actions';
 import { socket } from '../../App';
 
@@ -30,11 +31,13 @@ const LargeTab = (props) => {
     const history = useHistory();
     
     const messageInput = useRef();
+    const groupNameInput = useRef();
     
     let conv = useSelector(state => state.user.selectedConv);
     let userId = useSelector(state => state.user._id);
     let requests = useSelector(state => state.user.friendRequests);
     let contacts = useSelector(state => state.user.foundContacts);
+    let selectedFriends = useSelector(state => state.user.selectedFriends);
 
     const [convId, setConvId] = useState('');
     const [friendId, setFriendId] = useState('');
@@ -46,13 +49,19 @@ const LargeTab = (props) => {
                 history.push(`/main/convs/chat?_id=${conv._id}`)
             }
         }
-    }, [conv, history, props.tabName])
 
+        if (props.tabName === 'creategroup' && conv._id) {
+            history.push(`/main/convs/chat?_id=${conv._id}`);
+        }
+        
+    }, [conv, history, props.tabName])
+    
     useEffect(() => {
 
         if (props.tabName === 'requests') {
             dispatch(fetchRequests());
         }
+
 
         if (props.tabName === 'chat') {
             let query = location.search;
@@ -82,7 +91,7 @@ const LargeTab = (props) => {
             };
         }
 
-    }, [dispatch, history.location, location.search, props.tabName]);
+    }, [dispatch, history, location.search, props.tabName]);
 
     const fileSendChangeHandler = (e) => {
         if (e.target.files[0]) {
@@ -140,13 +149,17 @@ const LargeTab = (props) => {
         dispatch(cancelAddContact(e.currentTarget.id));
     }
 
+    const createGroupHandler = () => {
+        dispatch(createGroupChat(groupNameInput.current.value, selectedFriends));
+    }
+
     switch (props.tabName) {
         
         case 'chat':
             tab = (
                 <Auxiliary>
                     <div className={classes.TabHeader}>
-                        <h2>{conv.friendUsername}</h2>
+                        <h2>{conv.groupName ? conv.groupName : conv.friendUsername}</h2>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ChatTab}` }>
                         <Messages messages={conv.messages} friendId={conv.participants} userId={userId}/>
@@ -223,8 +236,8 @@ const LargeTab = (props) => {
                         <h2>Create a group chat</h2>
                     </div>
                     <div className={`${classes.TabBody} ${classes.GroupTab}` }>
-                        <FormInput type='search' placeholder='Enter group name...'/>
-                        <Button btnType='primary'>Confirm</Button>
+                        <FormInput type='search' placeholder='Enter group name...' inputRef={groupNameInput}/>
+                        <Button btnType='primary-form' click={createGroupHandler}>Confirm</Button>
                         <Button btnType='secondary' to='/main/friends/group'>Cancel</Button>
                     </div>
                 </Auxiliary>
