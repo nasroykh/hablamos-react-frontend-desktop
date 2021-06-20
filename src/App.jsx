@@ -109,7 +109,7 @@ const App = () => {
 
 				<Route path='/'>
 					{/* <LoadingPage/> */}
-					{isAuth ? <Redirect to='/main/convs'/> : <LandingPage/>}
+					{isAuth ? <Redirect to='/main/profile'/> : <LandingPage/>}
 				</Route>
 
 			</Switch>

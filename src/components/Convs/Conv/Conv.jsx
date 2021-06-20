@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 const Conv = (props) => {
 
-    let pictureUrl = `http://localhost:4444/users/${props.groupName ? props.id : props.friendId}/picture`;
+    let pictureUrl = `http://localhost:4444/users/${props.groupName ? props.id : props.friendId}/picture?${Date.now()}`;
 
     return (
         <li className={classes.Conv}>

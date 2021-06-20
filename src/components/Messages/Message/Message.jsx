@@ -4,7 +4,7 @@ import pic from '../../../assets/demo-profile-pic.jpg';
 
 const Message = (props) => {
 
-    let pictureUrl = `http://localhost:4444/users/${props.friendId}/picture`;
+    let pictureUrl = `http://localhost:4444/users/${props.friendId}/picture?${Date.now()}`;
     let fileUrl = `http://localhost:4444/convs/${props.id}/file`;
 
     return (

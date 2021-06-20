@@ -14,7 +14,7 @@ const NavBar = (props) => {
 
     const _id = useSelector(state => state.user._id);
 
-    let pictureUrl = `http://localhost:4444/users/${_id}/picture`;
+    let pictureUrl = `http://localhost:4444/users/${_id}/picture?${Date.now()}`;
 
     return (
         <nav className={classes.NavBar}>
@@ -31,7 +31,7 @@ const NavBar = (props) => {
                     </NavLink>
                 </li>
                 <li onClick={props.sdToggleHandler}>
-                    <NavLink to='/' /* activeClassName={classes.Active} */>
+                    <NavLink to='/main/profile' activeClassName={classes.Active}>
                         <NavProfile/>
                     </NavLink>
                 </li>

@@ -23,7 +23,7 @@ const Contact = (props) => {
             break;
     }
 
-    let pictureUrl = `http://localhost:4444/users/${props.id}/picture`;
+    let pictureUrl = `http://localhost:4444/users/${props.id}/picture?${Date.now()}`;
 
     const selectedFriends = useSelector(state => state.user.selectedFriends);
 

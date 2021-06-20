@@ -20,7 +20,9 @@ import {
     cancelAddContact, 
     contactSearch, 
     createGroupChat,
-    addContact } from '../../store/user/user-actions';
+    addContact,
+    updateProfile,
+    uploadPicture } from '../../store/user/user-actions';
 import { socket } from '../../App';
 
 const LargeTab = (props) => {
@@ -32,12 +34,19 @@ const LargeTab = (props) => {
     
     const messageInput = useRef();
     const groupNameInput = useRef();
+    const usernameInput = useRef();
+    const firstNameInput = useRef();
+    const lastNameInput = useRef();
+    const oldPasswordInput = useRef();
+    const newPasswordInput = useRef();
+    const statusSelect = useRef();
     
     let conv = useSelector(state => state.user.selectedConv);
     let userId = useSelector(state => state.user._id);
     let requests = useSelector(state => state.user.friendRequests);
     let contacts = useSelector(state => state.user.foundContacts);
     let selectedFriends = useSelector(state => state.user.selectedFriends);
+    let user = useSelector(state => state.user);
 
     const [convId, setConvId] = useState('');
     const [friendId, setFriendId] = useState('');
@@ -153,6 +162,35 @@ const LargeTab = (props) => {
         dispatch(createGroupChat(groupNameInput.current.value, selectedFriends));
     }
 
+    const pictureChangeHandler = (e) => {
+        e.preventDefault();
+
+        let pictureToUpload = new FormData();
+
+        pictureToUpload.append('picture', e.target.files[0]);
+
+        dispatch(uploadPicture(pictureToUpload));
+    }
+
+    const profileUpdateHandler = (e) => {
+        e.preventDefault();
+
+        let username = usernameInput.current.value;
+        let firstName = firstNameInput.current.value;
+        let lastName = lastNameInput.current.value;
+        let oldPassword = oldPasswordInput.current.value;
+        let newPassword = newPasswordInput.current.value;
+        let status = statusSelect.current.value;
+
+        dispatch(updateProfile(firstName, lastName, username, status, oldPassword, newPassword));
+
+        usernameInput.current.value = '';
+        firstNameInput.current.value = '';
+        lastNameInput.current.value = '';
+        oldPasswordInput.current.value = '';
+        newPasswordInput.current.value = '';
+    }
+
     switch (props.tabName) {
         
         case 'chat':
@@ -252,39 +290,52 @@ const LargeTab = (props) => {
                     </div>
                     <div className={`${classes.TabBody} ${classes.ProfileTab}` }>
                         <div className={classes.ProfilePic}>
-                            <img src={pic} alt="" />
-                            <h1>John Doe</h1>
-                            <Button btnType='secondary'>Change profile picture</Button>
-                        </div>
+                        <img src={`http://localhost:4444/users/${user._id}/picture?${Date.now()}`} alt="Profile pic" />
+                            <h1>{user.username}</h1>
+                            <label className={classes.PictureUpload}>
+                                <input type="file" accept='image/*' onChange={pictureChangeHandler}/>
+                                Change profile picture
+                                <FileIcon/>
+                            </label>                        </div>
                         <form className={classes.ProfileForm}>
-                            <h3>Profile Infos:</h3>
                             <div>
-                                <label>Online status:</label>
-                                <FormInput select>
-                                    <option value="online">Online</option>
-                                    <option value="busy">Busy</option>
-                                    <option value="offline">Offline</option>
-                                </FormInput>
+                                <h3> - Update profile Infos:</h3>
+                                <div>
+                                    <label>Online status:</label>
+                                    <FormInput select inputRef={statusSelect}>
+                                        <option value="Online" selected={user.status==='Online' ? true : false}>Online</option>
+                                        <option value="Busy" selected={user.status==='Busy' ? true : false}>Busy</option>
+                                        <option value="Offline" selected={user.status==='Offline' ? true : false}>Offline</option>
+                                    </FormInput>
+                                </div>
+                                <div>
+                                    <label>Username:</label>
+                                    <FormInput type="text" placeholder={user.username}  inputRef={usernameInput}/>
+                                </div>
+                                <div>
+                                    <label>First name:</label>
+                                    <FormInput type="text" placeholder={user.firstName}  inputRef={firstNameInput}/>
+                                </div>
+                                <div>
+                                    <label>Last name:</label>
+                                    <FormInput type="text" placeholder={user.lastName} inputRef={lastNameInput}/>
+                                </div>
                             </div>
                             <div>
-                                <label>First name:</label>
-                                <FormInput type="text" />
+                                <h3> - Change account password:</h3>
+                                <div>
+                                    <label>Old Password:</label>
+                                    <FormInput type="password"  inputRef={oldPasswordInput}/>
+                                </div>
+                                <div>
+                                    <label>New Password:</label>
+                                    <FormInput type="password"  inputRef={newPasswordInput}/>
+                                </div>
                             </div>
                             <div>
-                                <label>Last name:</label>
-                                <FormInput type="text" />
+                                <Button btnType='primary-form' click={profileUpdateHandler} >Confirm</Button>
+                                <Button to='/main/convs' btnType='secondary-form'>Cancel</Button>
                             </div>
-                            <h3>Account Infos:</h3>
-                            <div>
-                                <label>Old Password:</label>
-                                <FormInput type="password" />
-                            </div>
-                            <div>
-                                <label>New Password:</label>
-                                <FormInput type="password" />
-                            </div>
-                            <Button btnType='primary-form'>Confirm</Button>
-                            <Button to='/main/profile' btnType='secondary-form'>Cancel</Button>
                         </form>
                     </div>
                 </Auxiliary>
