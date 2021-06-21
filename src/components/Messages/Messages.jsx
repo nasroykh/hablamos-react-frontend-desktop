@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import classes from './Messages.module.scss';
 import Message from './Message/Message';
 
 const Messages = (props) => {
 
     let messagesList;
+
+    let messagesRef = useRef();
+
+    useEffect(() => {
+        if (props.messages) {
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
+    }, [props.messages]);
 
     if (props.messages) {
         messagesList = props.messages.map(message => { 
@@ -37,7 +45,7 @@ const Messages = (props) => {
     }
 
     return (
-        <ul className={classes.Messages}>
+        <ul className={classes.Messages} ref={messagesRef}>
             {messagesList}
         </ul>
     )
