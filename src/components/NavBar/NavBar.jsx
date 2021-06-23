@@ -46,7 +46,7 @@ const NavBar = (props) => {
                     </NavLink>
                 </li>
             </ul>
-            <Button btnType='profile-pic' to='/'><img src={pictureUrl} alt="Profile pic" /></Button>
+            <Button btnType='profile-pic' to='/'><img src={pictureUrl} alt="Profile pic" loading='lazy' /></Button>
         </nav>
     )
 }

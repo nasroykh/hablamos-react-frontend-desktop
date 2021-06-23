@@ -41,7 +41,6 @@ const SmallTab = (props) => {
 
     let convs = useSelector(state => state.user.convs);
     let friends = useSelector(state => state.user.friends);
-    let selectedFriends = useSelector(state => state.user.selectedFriends);
 
     const addToGroupHandler = (e) => {
         e.preventDefault();

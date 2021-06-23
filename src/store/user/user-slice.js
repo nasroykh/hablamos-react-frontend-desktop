@@ -38,6 +38,10 @@ const userSlice = createSlice({
             state.isLoading = false;
             for (let i = 0; i < action.payload.convs.length; i++) {
                 action.payload.convs[i].participants = action.payload.convs[i].participants.filter(el => el._id !== state._id);
+                
+                action.payload.convs[i].lastMessage = action.payload.convs[i].messages;
+
+                action.payload.convs[i].messages = undefined;
             }
             state.convs = action.payload.convs;
             state.pictureUploaded = false;
@@ -45,6 +49,7 @@ const userSlice = createSlice({
         fetchFriendsSuccess(state, action) {
             state.isLoading = false;
             state.friends = action.payload.friends;
+            state.pictureUploaded = false;
         },
         fetchRequestsSuccess(state, action) {
             state.isLoading = false;
@@ -103,6 +108,17 @@ const userSlice = createSlice({
                 state.selectedConv.new = true;
             } else {
                 state.selectedConv.messages.push({message: action.payload.message, _id: Date.now(), sender: state._id, sentAt: Date.now()});
+                
+                for (let i = 0; i < state.convs.length; i++) {
+                    if(state.convs[i]._id === state.selectedConv._id) {
+                        state.convs[i].lastMessage = [{
+                            message: action.payload.message, 
+                            _id: Date.now(), 
+                            sender: state._id, 
+                            sentAt: Date.now()
+                        }]
+                    }
+                }
             }
         },
         sendFileSuccess(state, action) {
@@ -112,16 +128,49 @@ const userSlice = createSlice({
                 state.selectedConv.new = true;
             } else {
                 state.selectedConv.messages.push({file: action.payload.file, _id: action.payload.lastMessageId, sender: state._id, sentAt: Date.now()});
+            
+                for (let i = 0; i < state.convs.length; i++) {
+                    if(state.convs[i]._id === state.selectedConv._id) {
+                        state.convs[i].lastMessage = [{
+                            file: action.payload.file, 
+                            _id: action.payload.lastMessageId, 
+                            sender: state._id, 
+                            sentAt: Date.now()
+                        }]
+                    }
+                }
             }
         },
         receiveMessage(state, action) {
             if (action.payload.sender !== state._id) {
                 state.selectedConv.messages.push({message: action.payload.message, _id: Date.now(), sender: action.payload.sender, sentAt: action.payload.time})
+            
+                for (let i = 0; i < state.convs.length; i++) {
+                    if(state.convs[i]._id === state.selectedConv._id) {
+                        state.convs[i].lastMessage = [{
+                            message: action.payload.message, 
+                            _id: Date.now(), 
+                            sender: action.payload.sender, 
+                            sentAt: action.payload.time
+                        }]
+                    }
+                }
             }
         },
         receiveFile(state, action) {
             if (action.payload.sender !== state._id) {
                 state.selectedConv.messages.push({file: action.payload.file, _id: action.payload._id, sender: action.payload.sender, sentAt: action.payload.time})
+            
+                for (let i = 0; i < state.convs.length; i++) {
+                    if(state.convs[i]._id === state.selectedConv._id) {
+                        state.convs[i].lastMessage = [{
+                            file: action.payload.file, 
+                            _id: action.payload._id, 
+                            sender: action.payload.sender, 
+                            sentAt: action.payload.time
+                        }]
+                    }
+                }
             }
         },
         leaveConv(state) {
