@@ -344,7 +344,21 @@ const LargeTab = (props) => {
             );
             break;
 
-    
+        case 'settings':
+        tab = (
+            <Auxiliary>
+                <div className={classes.TabHeader}>
+                    <h2>Create a group chat</h2>
+                </div>
+                <div className={`${classes.TabBody} ${classes.SettingsTab}` }>
+                    <div>
+                        <h3>Dark/Light Mode</h3>
+                        <Button btnType='primary-form' click={props.switchDarkLightMode}>Toggle</Button>
+                    </div>
+                </div>
+            </Auxiliary>
+        );
+            break;
         default:
             break;
     }

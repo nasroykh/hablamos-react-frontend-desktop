@@ -31,10 +31,13 @@
         border-radius: 50%;
     }
 
+    img, h3, span {
+        pointer-events: none;
+    }
+
     * {
         font-family: $secondaryFont;
         font-weight: 600;
-        pointer-events: none;
     }
 }
 
@@ -53,10 +56,7 @@
 }
 
 .Selected {
-    background-color: $primaryColor;
+    background-color: rgba($tertiaryColor, 0.5);
     border-radius: 15px;
     
-    h3 {
-        color: $bgColor;
-    }
 }

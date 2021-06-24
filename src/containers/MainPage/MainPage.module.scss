@@ -1,3 +1,5 @@
+@import '../../scss/variables';
+
 .MainPage {
     height: 100%;
     display: grid;
@@ -13,3 +15,159 @@
 .Hidden ~ div {
     grid-column: 2/-1;
 }
+
+.LightMode {
+    & > div:first-of-type {
+
+        & > div:first-of-type {
+            background-color: $bgColor;
+            color: $primaryColor;
+
+
+            path, circle {
+                fill: $primaryColor;
+            }
+
+            rect {
+                fill: $bgColor;
+            }
+
+            span {
+                background-color: $primaryColor;
+            }
+
+            a[id] {
+                path, circle, rect {
+                    fill: $primaryColor;
+
+                }
+                path {
+                    stroke: $bgColor;
+                }
+                ellipse {
+                    fill: $primaryColor;
+                }
+            }
+
+            ul {
+                background-color: $primaryColor;
+                border-color: $bgColor;
+
+                li {
+                    border-color: $bgColor;
+                }
+
+                a {
+                    color: $bgColor;
+
+                }
+            }
+        }
+
+        & > div:last-of-type {
+            background-color: $primaryColor;
+
+            input, select, label {
+                color: $bgColor;
+                border-color: $bgColor;
+
+                option {
+                    color: $whiteColor;
+                }
+
+                path {
+                    fill: $bgColor;
+                }
+            }
+
+            h3 {
+                color: $bgColor;
+            }
+
+            ul li, ul li a {
+                color: $bgColor;
+
+                path, circle {
+                    fill: $bgColor;
+                }
+
+                ellipse {
+                    fill: $bgColor;
+                }
+
+                rect {
+                    fill: $primaryColor;
+                }
+            }
+        }
+
+    }
+
+    & > div:last-of-type {
+        & > div:first-of-type {
+            background-color: $bgColor;
+            color: $primaryColor;
+
+        }
+
+        & > div:last-of-type {
+            background-color: $primaryColor;
+            
+            h3 {
+                color: $bgColor;
+            }
+
+            ul li > span:last-of-type, ul > span {
+                color: $bgColor;
+            }
+
+
+            ul li, ul li a {
+                color: $bgColor;
+
+                path, circle {
+                    fill: $bgColor;
+                }
+
+                ellipse {
+                    fill: $bgColor;
+                }
+
+                rect {
+                    fill: $primaryColor;
+                }
+            }
+
+            input, select, label {
+                background-color: $primaryColor;
+                border-color: $bgColor;
+                color: $bgColor;
+
+                path {
+                    fill: $bgColor;
+                }
+
+                option {
+                    color: $whiteColor;
+                }
+            }
+        
+            form {
+                background-color: $primaryColor;
+                border-top: 1px solid $bgColor;
+
+                label{
+                    path {
+                        fill: $bgColor;
+                    }
+
+                    &:hover path {
+                        fill: $secondaryColor;
+                    }
+                }
+
+            }
+        }
+        
+    }
+} 

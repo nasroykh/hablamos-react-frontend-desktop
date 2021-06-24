@@ -17,7 +17,7 @@ const NavBar = (props) => {
     let pictureUrl = `http://localhost:4444/users/${_id}/picture?${Date.now()}`;
 
     return (
-        <nav className={classes.NavBar}>
+        <nav className={`${classes.NavBar} ${props.isDarkMode ? '' : classes.LightMode}`}>
             <Logo without/>
             <ul>
                 <li onClick={props.sdToggleHandler}>
@@ -36,7 +36,7 @@ const NavBar = (props) => {
                     </NavLink>
                 </li>
                 <li onClick={props.sdToggleHandler}>
-                    <NavLink to='/' /* activeClassName={classes.Active} */>
+                    <NavLink to='/main/settings' activeClassName={classes.Active}>
                         <NavSet/>
                     </NavLink>
                 </li>

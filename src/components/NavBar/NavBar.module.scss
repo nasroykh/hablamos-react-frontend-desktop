@@ -60,3 +60,42 @@
     }
 
 }
+
+.LightMode {
+    background-color: $primaryColor;
+
+    & > div path {
+        fill: $bgColor;
+    }
+
+    ul {
+        .Active {
+            color: $primaryColor;
+            background-color: $bgColor;
+            path {
+                fill: $primaryColor;
+            }
+        }
+
+        li:last-child {
+            background-color: $tertiaryColor;
+            a {
+                color: $whiteColor;
+            }
+    
+            path {
+                fill: $whiteColor;
+            }
+        }
+
+        li a {
+            color: $bgColor;
+        }
+    
+        li path {
+            fill: $bgColor;
+        }
+    }
+
+
+} 

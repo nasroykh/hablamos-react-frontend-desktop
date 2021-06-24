@@ -58,8 +58,8 @@ const MainPage = (props) => {
     }, [history.location.pathname])
 
     return (
-        <div className={classes.MainPage}>
-            <NavBar logoutHandler={props.logoutHandler}/>
+        <div className={`${classes.MainPage} ${props.isDarkMode ? '' : classes.LightMode}`}>
+            <NavBar isDarkMode={props.isDarkMode} logoutHandler={props.logoutHandler}/>
             <Notif notifShow={notifShow} notifLink={notifLink}>{notifMessage}</Notif>
             
             <Switch>
@@ -114,6 +114,11 @@ const MainPage = (props) => {
                 <Route exact path='/main/convs/chat'>
                     <SmallTab tabName='convs'/>
                     <LargeTab tabName='chat'/>
+                </Route>
+
+                <Route exact path='/main/settings'>
+                    <div className={classes.Hidden}></div>
+                    <LargeTab tabName='settings' switchDarkLightMode={props.switchDarkLightMode}/>
                 </Route>
             </Switch>
         </div>

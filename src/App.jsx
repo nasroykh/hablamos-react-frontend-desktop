@@ -31,6 +31,7 @@ const App = () => {
 
 	const [bdShow, setBdShow] = useState(false);
 	const [tabMenuShow, setTabMenuShow] = useState(false);
+	const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('isDarkMode')==='true' ? true : false);
 
 	useEffect(() => {
         socket.on('message:receive', (payload) => {
@@ -103,6 +104,16 @@ const App = () => {
 
         history.push('/');
     }
+
+	const switchDarkLightMode = () => {
+		if (localStorage.getItem('isDarkMode') === 'true') {
+			localStorage.setItem('isDarkMode', 'false');
+			setIsDarkMode(false);
+		} else {
+			localStorage.setItem('isDarkMode', 'true');
+			setIsDarkMode(true);
+		}
+	}
 	
  	return (
 		<div className={classes.App}>
@@ -118,7 +129,9 @@ const App = () => {
 							tabMenuToggleHandler={tabMenuToggleHandler}
 							tabMenuShow={tabMenuShow}
 							bdClickHandler={bdClickHandler}
-							logoutHandler={logoutHandler}/> : <Redirect to='/'/>}			
+							logoutHandler={logoutHandler}
+							isDarkMode={isDarkMode}
+							switchDarkLightMode={switchDarkLightMode}/> : <Redirect to='/'/>}			
 				</Route>
 
 				<Route path='/signin'>
