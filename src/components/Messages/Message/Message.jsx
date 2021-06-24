@@ -3,7 +3,7 @@ import classes from './Message.module.scss';
 
 const Message = (props) => {
 
-    let pictureUrl = `http://localhost:4444/users/${props.friendId}/picture?${Date.now()}`;
+    let pictureUrl = `http://localhost:4444/users/${props.sender}/picture?${Date.now()}`;
     let fileUrl = `http://localhost:4444/convs/${props.id}/file`;
 
     return (

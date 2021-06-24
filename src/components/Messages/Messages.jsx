@@ -8,6 +8,8 @@ const Messages = (props) => {
 
     let messagesRef = useRef();
 
+    let isSeen;
+
     useEffect(() => {
         if (props.messages) {
             messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
@@ -50,6 +52,21 @@ const Messages = (props) => {
                 formattedTime = `${hours}:${minutes} - ${day}/${month}`;
             }            
 
+            if (message.sender===props.userId && (message.seenBy ? message.seenBy.length : false)) {
+                if (props.friendId.length > 1) {
+                    isSeen = 'Seen by '
+                    for (let i = 0; i < props.friendId.length; i++) {
+                        if (message.seenBy.includes(props.friendId[i]._id)) {
+                            isSeen += `${props.friendId[i].username}, `;
+                        }
+                    }
+                    isSeen = isSeen.slice(0, isSeen.length-2)
+                } else {
+                    isSeen = 'Seen';
+                }
+            }  else {
+                isSeen = '';
+            }
 
             return (
             <Message 
@@ -59,7 +76,9 @@ const Messages = (props) => {
             message={message.message} 
             time={formattedTime}
             id={message._id}
-            isFile={message.file ? true : false}/>
+            sender={message.sender}
+            isFile={message.file ? true : false}
+            seen={message.seenBy ? message.seenBy.length : false} />
         )})
     } else {
         messagesList = <li key='notfound' className={classes.NoMessage}>Start a conversation by saying 'Hi!'</li>
@@ -68,6 +87,7 @@ const Messages = (props) => {
     return (
         <ul className={classes.Messages} ref={messagesRef}>
             {messagesList}
+            <span className={classes.Seen}>{isSeen}</span>
         </ul>
     )
 }

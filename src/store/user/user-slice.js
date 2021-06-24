@@ -214,6 +214,13 @@ const userSlice = createSlice({
             for (const key in action.payload.userInfos) {
                 state[key] = action.payload.userInfos[key];
             }
+        },
+        messageSeen(state, action) {
+            if (state.selectedConv.messages[state.selectedConv.messages.length-1].seenBy) {
+                state.selectedConv.messages[state.selectedConv.messages.length-1].seenBy.push(action.payload._id);
+            } else {
+                state.selectedConv.messages[state.selectedConv.messages.length-1].seenBy = [action.payload._id];
+            }
         }
     }
 });
