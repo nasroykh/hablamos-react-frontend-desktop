@@ -31,7 +31,7 @@ const App = () => {
 
 	const [bdShow, setBdShow] = useState(false);
 	const [tabMenuShow, setTabMenuShow] = useState(false);
-	const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('isDarkMode')==='true' ? true : false);
+	const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('isDarkMode')==='false' ? false : true);
 
 	useEffect(() => {
         socket.on('message:receive', (payload) => {
@@ -53,7 +53,8 @@ const App = () => {
 				dispatch(userActions.receiveMessage({
 					message: payload.message,
 					sender: payload.sender,
-					time: payload.time
+					time: payload.time,
+					_id: payload.lastMessageId
 				}));
 				if (localStorage.getItem('userId') !== payload.sender) {
 					socket.emit('message:seen', {
@@ -106,12 +107,12 @@ const App = () => {
     }
 
 	const switchDarkLightMode = () => {
-		if (localStorage.getItem('isDarkMode') === 'true') {
-			localStorage.setItem('isDarkMode', 'false');
-			setIsDarkMode(false);
-		} else {
+		if (localStorage.getItem('isDarkMode') === 'false') {
 			localStorage.setItem('isDarkMode', 'true');
 			setIsDarkMode(true);
+		} else {
+			localStorage.setItem('isDarkMode', 'false');
+			setIsDarkMode(false);
 		}
 	}
 	

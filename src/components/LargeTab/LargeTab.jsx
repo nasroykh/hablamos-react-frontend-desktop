@@ -74,7 +74,7 @@ const LargeTab = (props) => {
 
 
         if (props.tabName === 'chat') {
-            dispatch(fetchConvs());
+            // dispatch(fetchConvs());
             let query = location.search;
             console.log(history.location);
             query = query.replace('?', '').split('=');

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import {Switch, Route, useHistory} from 'react-router-dom';
 import classes from './MainPage.module.scss';
 import NavBar from '../../components/NavBar/NavBar';
 import LargeTab from '../../components/LargeTab/LargeTab';
 import SmallTab from '../../components/SmallTab/SmallTab';
 import Notif from '../../components/Notif/Notif';
-import {Switch, Route, useHistory} from 'react-router-dom';
 import {socket} from '../../App';
+import { userActions } from '../../store/user/user-slice';
+import { useDispatch } from 'react-redux';
 
 const MainPage = (props) => {
 
     const history = useHistory();
+
+    const dispatch = useDispatch();
 
 	const [notifShow, setNotifShow] = useState(false);
 	const [notifMessage, setNotifMessage] = useState('');
@@ -27,14 +31,14 @@ const MainPage = (props) => {
             }, 3000);
         };
 
-		socket.on("notify:message", (sender) => {
+		socket.on("notify:message", (payload) => {
             if (history.location.pathname !== '/main/convs/chat') {
                 setNotifShow(true);
-                setNotifMessage(`New message from ${sender.username}`)
+                setNotifMessage(`New message from ${payload.username}`)
                 setNotifLink('/');
                 clearNotif();
             }
-            
+            dispatch(userActions.updateConvWithLastMessage(payload))
 		});
 
         socket.on('notify:request', (sender) => {
@@ -55,7 +59,7 @@ const MainPage = (props) => {
             }
         });
 
-    }, [history.location.pathname])
+    }, [dispatch, history.location.pathname])
 
     return (
         <div className={`${classes.MainPage} ${props.isDarkMode ? '' : classes.LightMode}`}>

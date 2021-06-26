@@ -2,6 +2,7 @@
 
 .Conv {
     margin-bottom: 1.5em;
+    position: relative;
     
     &:last-of-type {
         margin-bottom: 0;
@@ -51,4 +52,15 @@
         word-break: break-all;
         grid-column: 2/3;
     }
+}
+
+.NewMessage {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background-color: $whiteColor;
+    display: block;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
 }

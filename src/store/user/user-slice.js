@@ -41,6 +41,7 @@ const userSlice = createSlice({
         },
         fetchConvsSuccess(state, action) {
             state.isLoading = false;
+            
             for (let i = 0; i < action.payload.convs.length; i++) {
                 action.payload.convs[i].participants = action.payload.convs[i].participants.filter(el => el._id !== state._id);
                 
@@ -48,6 +49,19 @@ const userSlice = createSlice({
 
                 action.payload.convs[i].messages = undefined;
             }
+
+            action.payload.convs.sort((a, b) => {
+                if (a.lastMessage[0].sentAt > b.lastMessage[0].sentAt) {
+                    return -1;
+                }
+
+                if (a.lastMessage[0].sentAt < b.lastMessage[0].sentAt) {
+                    return 1;
+                }
+
+                return 0;
+            });
+
             state.convs = action.payload.convs;
             state.pictureUploaded = false;
         },
@@ -105,6 +119,14 @@ const userSlice = createSlice({
                 state.selectedConv.friendUsername = state.friends.find(el => el._id === friend).username;
                 state.selectedConv.participants = state.selectedConv.participants.filter(el => el !== state._id);
             }
+
+            for (let i = 0; i < state.convs.length; i++) {
+                if (state.convs[i]._id === action.payload.conv._id) {
+                    if (state.convs[i].lastMessage[0].sender !== state._id) {
+                        state.convs[i].lastMessage[0].seenBy.push(state._id);
+                    }
+                }
+            }
         },
         sendMessageSuccess(state, action) {
             state.isLoading = false;
@@ -120,7 +142,8 @@ const userSlice = createSlice({
                             message: action.payload.message, 
                             _id: Date.now(), 
                             sender: state._id, 
-                            sentAt: Date.now()
+                            sentAt: Date.now(),
+                            seenBy: []
                         }]
                     }
                 }
@@ -140,27 +163,31 @@ const userSlice = createSlice({
                             file: action.payload.file, 
                             _id: action.payload.lastMessageId, 
                             sender: state._id, 
-                            sentAt: Date.now()
+                            sentAt: Date.now(),
+                            seenBy: []
                         }]
                     }
                 }
             }
+
         },
         receiveMessage(state, action) {
             if (action.payload.sender !== state._id) {
-                state.selectedConv.messages.push({message: action.payload.message, _id: Date.now(), sender: action.payload.sender, sentAt: action.payload.time})
+                state.selectedConv.messages.push({message: action.payload.message, _id: action.payload.lastMessageId, sender: action.payload.sender, sentAt: action.payload.time})
             
                 for (let i = 0; i < state.convs.length; i++) {
                     if(state.convs[i]._id === state.selectedConv._id) {
                         state.convs[i].lastMessage = [{
                             message: action.payload.message, 
-                            _id: Date.now(), 
+                            _id: action.payload.lastMessageId, 
                             sender: action.payload.sender, 
-                            sentAt: action.payload.time
+                            sentAt: action.payload.time,
+                            seenBy: [state._id]
                         }]
                     }
                 }
             }
+
         },
         receiveFile(state, action) {
             if (action.payload.sender !== state._id) {
@@ -172,7 +199,8 @@ const userSlice = createSlice({
                             file: action.payload.file, 
                             _id: action.payload._id, 
                             sender: action.payload.sender, 
-                            sentAt: action.payload.time
+                            sentAt: action.payload.time,
+                            seenBy: [state._id]
                         }]
                     }
                 }
@@ -226,6 +254,56 @@ const userSlice = createSlice({
             } else {
                 state.selectedConv.messages[state.selectedConv.messages.length-1].seenBy = [action.payload._id];
             }
+        },
+        updateConvWithLastMessage(state, action) {
+            let convFound = false;
+
+            for (let i = 0; i < state.convs.length; i++) {
+                if (state.convs[i]._id === action.payload.convId.toString()) {
+                    state.convs[i].lastMessage[0] = {
+                        seenBy: [],
+                        _id: Date.now(),
+                        sender: action.payload._id,
+                        sentAt: action.payload.sentAt,
+                        message: action.payload.message ? action.payload.message : undefined,
+                        file: action.payload.file ? action.payload.file : undefined
+                    }
+
+                    convFound = true;
+                } 
+            }
+
+            if (!convFound) {
+                state.convs.push({
+                    _id: action.payload.convId,
+                    participants: [
+                        {
+                            _id: action.payload._id,
+                            username: action.payload.username
+                        }
+                    ],
+                    lastMessage: [{
+                        seenBy: [],
+                        _id: Date.now(),
+                        sender: action.payload._id,
+                        sentAt: action.payload.sentAt,
+                        message: action.payload.message ? action.payload.message : undefined,
+                        file: action.payload.file ? action.payload.file : undefined
+                    }]
+                });
+            }
+
+            state.convs.sort((a, b) => {
+                if (a.lastMessage[0].sentAt > b.lastMessage[0].sentAt) {
+                    return -1;
+                }
+
+                if (a.lastMessage[0].sentAt < b.lastMessage[0].sentAt) {
+                    return 1;
+                }
+
+                return 0;
+            });
         }
     }
 });
