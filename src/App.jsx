@@ -4,7 +4,7 @@ import socketIOClient from "socket.io-client";
 import {useSelector, useDispatch} from 'react-redux';
 import {Switch, Route, Redirect, useHistory} from 'react-router-dom'
 import { isMobile } from "react-device-detect";
-// import LoadingPage from './containers/LoadingPage/LoadingPage';
+import LoadingPage from './containers/LoadingPage/LoadingPage';
 import LoadingSpinner from './elements/LoadingSpinner/LoadingSpinner';
 import BackDrop from './elements/BackDrop/BackDrop';
 import LandingPage from './containers/LandingPage/LandingPage';
@@ -15,8 +15,8 @@ import DialogBox from './components/DialogBox/DialogBox';
 import {checkAuth, logout} from './store/auth/auth-actions';
 import {userActions} from './store/user/user-slice';
 
-// const ENDPOINT = "https://fierce-inlet-31066.herokuapp.com"; 
-const ENDPOINT = "ws://localhost:4444"; 
+const ENDPOINT = "https://fierce-inlet-31066.herokuapp.com"; 
+// const ENDPOINT = "ws://localhost:4444"; 
 export const socket = socketIOClient(ENDPOINT);
 
 const App = () => {
@@ -29,6 +29,7 @@ const App = () => {
 
 	const history = useHistory();
 
+	const [pageLoaded, setPageLoaded] = useState(false);
 	const [bdShow, setBdShow] = useState(false);
 	const [tabMenuShow, setTabMenuShow] = useState(false);
 	const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('isDarkMode')==='false' ? false : true);
@@ -67,7 +68,6 @@ const App = () => {
         });
 
 		socket.on('message:isseen', (payload) => {
-			console.log('seen');
 			if (localStorage.getItem('userId') !== payload._id) {
 				dispatch(userActions.messageSeen({_id: payload._id, username: payload.username}));
 			}
@@ -76,9 +76,11 @@ const App = () => {
     }, [dispatch]);
 
 	useEffect(() => {
-		// if (isMobile) {
-		// 	window.location.href = 'https://m.hablamos.me';
-		// } 
+		if (isMobile) {
+			window.location.href = 'https://m.hablamos.me';
+		} 
+
+		window.addEventListener('load', pageLoadHandler);
 
 		dispatch(checkAuth(localStorage.getItem('token')));
 
@@ -88,6 +90,10 @@ const App = () => {
 		
 	}, [dispatch])
 	
+	const pageLoadHandler = () => {
+		setPageLoaded(true);
+	}
+
 	const bdClickHandler = () => {
 		setBdShow(false);
 		setTabMenuShow(false);
@@ -144,8 +150,7 @@ const App = () => {
 				</Route>
 
 				<Route path='/'>
-					{/* <LoadingPage/> */}
-					{isAuth ? <Redirect to='/main/convs'/> : <LandingPage/>}
+					{pageLoaded ? (isAuth ? <Redirect to='/main/convs'/> : <LandingPage/>) : (<LoadingPage/>) }
 				</Route>
 
 			</Switch>

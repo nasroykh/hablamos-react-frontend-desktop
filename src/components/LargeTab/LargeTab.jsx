@@ -76,7 +76,6 @@ const LargeTab = (props) => {
         if (props.tabName === 'chat') {
             // dispatch(fetchConvs());
             let query = location.search;
-            console.log(history.location);
             query = query.replace('?', '').split('=');
             
             let _id = '';
@@ -292,7 +291,8 @@ const LargeTab = (props) => {
                     </div>
                     <div className={`${classes.TabBody} ${classes.ProfileTab}` }>
                         <div className={classes.ProfilePic}>
-                        <img src={`http://localhost:4444/users/${user._id}/picture?${Date.now()}`} alt="Profile pic" loading='lazy' />
+                        {/* <img src={`http://localhost:4444/users/${user._id}/picture?${Date.now()}`} alt="Profile pic" loading='lazy' /> */}
+                        <img src={`https://fierce-inlet-31066.herokuapp.com/users/${user._id}/picture?${Date.now()}`} alt="Profile pic" loading='lazy' />
                             <h1>{user.username}</h1>
                             <label className={classes.PictureUpload}>
                                 <input type="file" accept='image/*' onChange={pictureChangeHandler}/>
