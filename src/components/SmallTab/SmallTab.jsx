@@ -5,7 +5,6 @@ import Auxiliary from '../../hoc/Auxiliary';
 import Button from '../../elements/Button/Button';
 import Convs from '../Convs/Convs';
 import Contacts from '../Contacts/Contacts';
-import FormInput from '../../elements/FormInput/FormInput';
 import { 
     fetchConvs, 
     fetchFriends, 
@@ -41,6 +40,7 @@ const SmallTab = (props) => {
 
     let convs = useSelector(state => state.user.convs);
     let friends = useSelector(state => state.user.friends);
+    let baseUrl = useSelector(state => state.user.baseUrl);
 
     const addToGroupHandler = (e) => {
         e.preventDefault();
@@ -58,7 +58,7 @@ const SmallTab = (props) => {
                         <Button to='/main/convs/add' btnType='add-conv'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ConvsTab}` }>
-                        <Convs convs={convs}/>
+                        <Convs baseUrl={baseUrl} convs={convs}/>
                     </div>
                 </Auxiliary>
             );
@@ -72,7 +72,7 @@ const SmallTab = (props) => {
                         <Button to='/main/convs' btnType='back-btn'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ConvsTab}` }>
-                        <Contacts friends={friends} addConv/>
+                        <Contacts baseUrl={baseUrl} friends={friends} addConv/>
                     </div>
                 </Auxiliary>
             );
@@ -90,7 +90,7 @@ const SmallTab = (props) => {
                     </div>
                     <div className={`${classes.TabBody} ${classes.FriendsTab}` }>
                         <BackDrop click={props.tabMenuToggleHandler} bdShow={props.bdShow}/>
-                        <Contacts friends={friends}/>
+                        <Contacts baseUrl={baseUrl} friends={friends}/>
                     </div>
                 </Auxiliary>
             );
@@ -104,7 +104,7 @@ const SmallTab = (props) => {
                         <Button to='/main/friends' btnType='back-btn'/>
                     </div>
                     <div className={`${classes.TabBody} ${classes.GroupTab}` }>
-                        <Contacts group friends={friends} addToGroupHandler={addToGroupHandler}/>
+                        <Contacts baseUrl={baseUrl} group friends={friends} addToGroupHandler={addToGroupHandler}/>
                         <Button btnType='primary' to='/main/friends/group/confirm'>Confirm</Button>
                     </div>
                 </Auxiliary>

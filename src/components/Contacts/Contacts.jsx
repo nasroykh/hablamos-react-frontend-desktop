@@ -36,7 +36,8 @@ const Contacts = (props) => {
                 requests={props.requests}
                 sent={friend.sent}                    
                 group={props.group}
-                addToGroupHandler={props.addToGroupHandler} />
+                addToGroupHandler={props.addToGroupHandler} 
+                baseUrl={props.baseUrl}/>
             )})
         } else {
             if (props.search) {

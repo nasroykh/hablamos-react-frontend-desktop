@@ -78,7 +78,8 @@ const Messages = (props) => {
             id={message._id}
             sender={message.sender}
             isFile={message.file ? true : false}
-            seen={message.seenBy ? message.seenBy.length : false} />
+            seen={message.seenBy ? message.seenBy.length : false}
+            baseUrl={props.baseUrl} />
         )})
     } else {
         messagesList = <li key='notfound' className={classes.NoMessage}>Start a conversation by saying 'Hi!'</li>

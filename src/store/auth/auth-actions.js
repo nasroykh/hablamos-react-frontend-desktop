@@ -38,7 +38,7 @@ export const signUp = (signUpInfos) => {
             }
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -62,7 +62,7 @@ export const login = (loginInfos) => {
             }
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -93,9 +93,9 @@ export const checkAuth = (token) => {
     return async (dispatch) => {
         try {
             let res;
-            // dispatch(userActions.setIsLoading());
 
             if (token) {
+                dispatch(userActions.setIsLoading());
                 res = await axios.get('/users/check', {headers: {Authorization: localStorage.getItem('token')}});
                 if (res.status === 200) {
                     localStorage.setItem('token', res.data.token);
@@ -105,12 +105,13 @@ export const checkAuth = (token) => {
                     dispatch(userActions.loginSuccess({userInfos: res.data.user}));
                     socket.emit('socketid:save', res.data.user._id);
             } else {
-                    throw new Error();
-                }
+                throw new Error();
+            }
     
             } 
 
         } catch (e) {
+            dispatch(userActions.setLoadingDone());
         }
     }
 }

@@ -13,9 +13,9 @@ import {NavLink} from 'react-router-dom'
 const NavBar = (props) => {
 
     const _id = useSelector(state => state.user._id);
+    const baseUrl = useSelector(state => state.user.baseUrl);
 
-    // let pictureUrl = `http://localhost:4444/users/${_id}/picture?${Date.now()}`;
-    let pictureUrl = `https://fierce-inlet-31066.herokuapp.com/users/${_id}/picture?${Date.now()}`;
+    let pictureUrl = `${baseUrl}/users/${_id}/picture?${Date.now()}`;
 
     return (
         <nav className={`${classes.NavBar} ${props.isDarkMode ? '' : classes.LightMode}`}>

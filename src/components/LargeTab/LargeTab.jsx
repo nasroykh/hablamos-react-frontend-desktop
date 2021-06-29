@@ -48,6 +48,7 @@ const LargeTab = (props) => {
     let contacts = useSelector(state => state.user.foundContacts);
     let selectedFriends = useSelector(state => state.user.selectedFriends);
     let user = useSelector(state => state.user);
+    let baseUrl = useSelector(state => state.user.baseUrl);
 
     const [convId, setConvId] = useState('');
     const [friendId, setFriendId] = useState('');
@@ -201,7 +202,7 @@ const LargeTab = (props) => {
                         <h2>{conv.groupName ? conv.groupName : conv.friendUsername}</h2>
                     </div>
                     <div className={`${classes.TabBody} ${classes.ChatTab}` }>
-                        <Messages messages={conv.messages} friendId={conv.participants} userId={userId}/>
+                        <Messages baseUrl={baseUrl} messages={conv.messages} friendId={conv.participants} userId={userId}/>
                         <form className={classes.ChatForm} onSubmit={sendMessageHandler}>
                             <label className={classes.FileSend}>
                                 <FileIcon/>
@@ -232,7 +233,8 @@ const LargeTab = (props) => {
                         search 
                         friends={contacts} 
                         addContactHandler={addContactHandler} 
-                        cancelAddContactHandler={cancelAddContactHandler}/>
+                        cancelAddContactHandler={cancelAddContactHandler}
+                        baseUrl={baseUrl}/>
                     </div>
                 </Auxiliary>
             );
@@ -245,7 +247,7 @@ const LargeTab = (props) => {
                         <h2>Friend Requests</h2>
                     </div>
                     <div className={`${classes.TabBody} ${classes.RequestsTab}` }>
-                        <Contacts friends={requests} requests acceptContactHandler={acceptContactHandler} refuseContactHandler={refuseContactHandler}/>
+                        <Contacts baseUrl={baseUrl} friends={requests} requests acceptContactHandler={acceptContactHandler} refuseContactHandler={refuseContactHandler}/>
                     </div>
                 </Auxiliary>
             );
@@ -291,8 +293,7 @@ const LargeTab = (props) => {
                     </div>
                     <div className={`${classes.TabBody} ${classes.ProfileTab}` }>
                         <div className={classes.ProfilePic}>
-                        {/* <img src={`http://localhost:4444/users/${user._id}/picture?${Date.now()}`} alt="Profile pic" loading='lazy' /> */}
-                        <img src={`https://fierce-inlet-31066.herokuapp.com/users/${user._id}/picture?${Date.now()}`} alt="Profile pic" loading='lazy' />
+                        <img src={`${baseUrl}/users/${user._id}/picture?${Date.now()}`} alt="Profile pic" loading='lazy' />
                             <h1>{user.username}</h1>
                             <label className={classes.PictureUpload}>
                                 <input type="file" accept='image/*' onChange={pictureChangeHandler}/>

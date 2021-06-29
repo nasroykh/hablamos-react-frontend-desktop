@@ -102,7 +102,7 @@ export const addContact = (_id) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -121,7 +121,7 @@ export const cancelAddContact = (_id) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -138,7 +138,7 @@ export const acceptContact = (_id) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -155,7 +155,7 @@ export const refuseContact = (_id) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -194,7 +194,7 @@ export const sendMessage = (message, _id, friendId) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -216,7 +216,7 @@ export const sendFile = (file, _id, friendId) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -233,7 +233,7 @@ export const uploadPicture = (picture) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -253,7 +253,7 @@ export const createGroupChat = (groupName, participants) => {
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
@@ -272,7 +272,7 @@ export const updateProfile = (firstName, lastName, username, status, oldPassword
 
 
         } catch (e) {
-            dispatch(userActions.setError({error: e.response.data}));
+            dispatch(userActions.setError({error: e.response.data.toString()}));
         }
     }
 }
